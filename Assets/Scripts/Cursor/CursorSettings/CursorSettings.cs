@@ -4,7 +4,7 @@ public class CursorSettings : MonoBehaviour
 {
     private void Start()
     {
-        Cursor.visible = false;
+        //Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
     }
 }

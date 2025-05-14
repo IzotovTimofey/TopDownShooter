@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class InputReader : MonoBehaviour
@@ -10,6 +11,7 @@ public class InputReader : MonoBehaviour
 
     public Vector2 MoveInput => _moveInput;
     public Vector2 LookInput => _lookInput;
+    public event UnityAction OnPlayerDashInput;
 
     private void OnEnable()
     {
@@ -22,6 +24,9 @@ public class InputReader : MonoBehaviour
         _inputSystem.Player.Look.performed += OnLook;
         _inputSystem.Player.Look.canceled += OnLook;
 
+        _inputSystem.Player.Dash.performed += OnDash;
+        _inputSystem.Player.Dash.canceled += OnDash;
+
     }
 
     private void OnDisable()
@@ -31,6 +36,9 @@ public class InputReader : MonoBehaviour
 
         _inputSystem.Player.Look.performed -= OnLook;
         _inputSystem.Player.Look.canceled -= OnLook;
+
+        _inputSystem.Player.Dash.performed -= OnDash;
+        _inputSystem.Player.Dash.canceled -= OnDash;
 
         _inputSystem.Disable();
     }
@@ -43,6 +51,11 @@ public class InputReader : MonoBehaviour
     private void OnLook(InputAction.CallbackContext context)
     {
         _lookInput = context.ReadValue<Vector2>();
+    }
+    
+    private void OnDash(InputAction.CallbackContext context)
+    {
+        OnPlayerDashInput?.Invoke();
     }
 
 }
