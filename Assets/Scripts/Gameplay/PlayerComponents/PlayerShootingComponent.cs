@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerShootingComponent : MonoBehaviour
 {
     [SerializeField] private InputReader _reader;
-    [SerializeField] private PlayerDirectionSetter _directionSetter;
+    [SerializeField] private PlayerDirectionProvider _directionProvider;
     [SerializeField] private BulletsFactory _factory;
 
     [SerializeField] private Transform _shootPoint;
@@ -20,8 +20,8 @@ public class PlayerShootingComponent : MonoBehaviour
 
     private void Shoot()
     {
-        Vector3 targetDirection = _directionSetter.LookingDirection();
-        _factory.SpawnBullet(targetDirection, _shootPoint.position);
+        Quaternion targetRotation = _directionProvider.GetLookDirection();
+        _factory.SpawnBullet(targetRotation, _shootPoint.position);
         
         //GameObject projectile = Instantiate(_bulletPrefab, _shootPoint.position, _shootPoint.rotation);
         //projectile.GetComponent<Rigidbody2D>().AddForce(_shootPoint.right * _bulletSpeed, ForceMode2D.Impulse);

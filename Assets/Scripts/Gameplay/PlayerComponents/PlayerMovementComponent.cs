@@ -11,7 +11,7 @@ public class PlayerMovementComponent : MonoBehaviour
     [SerializeField] private float _turningThreshold = 10.01f;
 
     [SerializeField] private InputReader _reader;
-    [SerializeField] private PlayerDirectionSetter _directionSetter;
+    [SerializeField] private PlayerDirectionProvider _directionProvider;
 
     private Rigidbody2D _rb2D;
     private bool _isDashing = false;
@@ -41,19 +41,15 @@ public class PlayerMovementComponent : MonoBehaviour
 
     private void Move()
     {
-        Vector2 moveDirection = _directionSetter.WalkingDirection();
+        Vector2 moveDirection = _directionProvider.GetWalkDirection();
         _rb2D.linearVelocity = moveDirection * _moveSpeed;
     }
 
     private void Look()
     {
-        Vector3 mouseScreenPosition = Camera.main.ScreenToWorldPoint(_reader.LookInput);
-        Vector3 targetDirection = mouseScreenPosition - transform.position;
-        if (targetDirection.magnitude > _turningThreshold)
-        {
-            float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-        }
+        Vector3 lookDirection = _directionProvider.GetLookDirectionVector();
+        if (lookDirection.magnitude > _turningThreshold)
+           transform.rotation = _directionProvider.GetLookDirection();
     }
     private void Dash()
     {
@@ -65,8 +61,8 @@ public class PlayerMovementComponent : MonoBehaviour
 
     private IEnumerator PerformingDash()
     {
-        Vector2 moveDirection = _directionSetter.WalkingDirection();
-        Vector3 targetDirection = _directionSetter.LookingDirection();
+        Vector2 moveDirection = _directionProvider.GetWalkDirection();
+        Vector3 targetDirection = _directionProvider.GetIdleDashDirection();
 
         _rb2D.linearVelocity = moveDirection == Vector2.zero ? targetDirection * _dashForceValue : moveDirection * _dashForceValue;
 

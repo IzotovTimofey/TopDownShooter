@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private float _bulletSpeed = 20f;
+    [SerializeField] private int _damageValue = 25;
 
     private Rigidbody2D _rb2D;
 
@@ -11,14 +13,24 @@ public class Bullet : MonoBehaviour
         _rb2D = gameObject.GetComponent<Rigidbody2D>();
     }
 
-    public void BulletFly(Vector3 direction, Vector3 startPoint)
+    public void BulletFly(Quaternion direction, Vector3 startPoint)
     {
         //TODO: Исправить вращение пули, она смотрит не туда
-        gameObject.transform.position = startPoint;
-        _rb2D.AddForce(direction * _bulletSpeed, ForceMode2D.Impulse);
+        transform.position = startPoint;
+        transform.rotation = direction;
+        _rb2D.linearVelocity = (Vector2.right * _bulletSpeed);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if(collision.collider.TryGetComponent(out GameplayEntity controller))
+        {
+            DealDamage(controller.HealthComponent);
+        }
         gameObject.SetActive(false);
+    }
+
+    private void DealDamage(HealthComponent healthComponent)
+    {
+        healthComponent.TakeDamage(_damageValue);
     }
 }
