@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -12,7 +13,8 @@ public class InputReader : MonoBehaviour
     public Vector2 MoveInput => _moveInput;
     public Vector2 LookInput => _lookInput;
     public event UnityAction OnPlayerDashInput;
-    public event UnityAction OnPlayerShoot;
+    public event UnityAction<bool> OnPlayerShoot;
+    public event UnityAction OnPlayerReload;
 
     private void OnEnable()
     {
@@ -29,7 +31,9 @@ public class InputReader : MonoBehaviour
         _inputSystem.Player.Dash.canceled += OnDash;
 
         _inputSystem.Player.Shoot.performed += OnShoot;
+        _inputSystem.Player.Shoot.canceled += OnShoot;
 
+        _inputSystem.Player.Reload.performed += OnReload;
     }
 
     private void OnDisable()
@@ -44,6 +48,9 @@ public class InputReader : MonoBehaviour
         _inputSystem.Player.Dash.canceled -= OnDash;
 
         _inputSystem.Player.Shoot.performed -= OnShoot;
+        _inputSystem.Player.Shoot.canceled -= OnShoot;
+
+        _inputSystem.Player.Reload.performed -= OnReload;
 
         _inputSystem.Disable();
     }
@@ -64,7 +71,12 @@ public class InputReader : MonoBehaviour
     }
     private void OnShoot(InputAction.CallbackContext context)
     {
-        OnPlayerShoot?.Invoke();
+        var state = context.canceled ? false : true;
+        OnPlayerShoot?.Invoke(state);
     }
 
+    private void OnReload(InputAction.CallbackContext context)
+    {
+        OnPlayerReload?.Invoke();
+    }
 }

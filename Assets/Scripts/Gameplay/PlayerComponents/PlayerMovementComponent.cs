@@ -16,6 +16,10 @@ public class PlayerMovementComponent : MonoBehaviour
     private Rigidbody2D _rb2D;
     private bool _isDashing = false;
     private bool _canDash = true;
+    private void Awake()
+    {
+        _rb2D = gameObject.GetComponent<Rigidbody2D>();
+    }
 
     private void OnEnable()
     {
@@ -27,10 +31,6 @@ public class PlayerMovementComponent : MonoBehaviour
         _reader.OnPlayerDashInput -= Dash;
     }
 
-    private void Start()
-    {
-        _rb2D = gameObject.GetComponent<Rigidbody2D>();
-    }
 
     private void FixedUpdate()
     {
@@ -46,7 +46,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     private void Look()
     {
-        if (_directionProvider.MousePositionV3.magnitude > _turningThreshold)
+        if (_directionProvider.DirectionToMouse.magnitude > _turningThreshold)
             transform.rotation = _directionProvider.MouseLookAngle;
     }
     private void Dash()

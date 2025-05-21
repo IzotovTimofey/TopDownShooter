@@ -1,10 +1,7 @@
 using UnityEngine;
-using Zenject;
 
 public class BulletsFactory : MonoBehaviour
-{
-    [Inject] private readonly DiContainer _container;
-    
+{   
     [SerializeField] private GameObject _bullet;
     [SerializeField] private Transform _bulletsPoolParent;
     [SerializeField] private int _startBulletsCapacity;
@@ -13,13 +10,13 @@ public class BulletsFactory : MonoBehaviour
 
     private void Awake()
     {
-        _bulletsPool = new(_container, _bullet, _startBulletsCapacity, _bulletsPoolParent);
+        _bulletsPool = new(null, _bullet, _startBulletsCapacity, _bulletsPoolParent);
     }
 
-    public void SpawnBullet(Quaternion direction, Vector3 startPoint)
+    public void SpawnBullet(Quaternion angle, Vector3 startPoint, Vector3 direction)
     {
         Bullet bullet = _bulletsPool.GetObjectFromPool(true);
-        bullet.BulletFly(direction, startPoint);
+        bullet.BulletFly(angle, startPoint, direction);
         //bullet.Setup(startPoint, direction);
     }
 }

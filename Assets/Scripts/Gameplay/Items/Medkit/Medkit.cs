@@ -4,20 +4,18 @@ public class Medkit : MonoBehaviour
 {
     [SerializeField] private int _healingValue = 25;
 
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.collider.TryGetComponent(out PlayerController controller))
+        if (collision.TryGetComponent(out PlayerController controller))
         {
             OnPickUp(controller.HealthComponent);
-            gameObject.SetActive(false);
         }
-
     }
 
     private void OnPickUp(HealthComponent health)
     {
         health.Heal(_healingValue);
+        gameObject.SetActive(false);
     }
     
 }

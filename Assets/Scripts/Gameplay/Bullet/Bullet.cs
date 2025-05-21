@@ -13,15 +13,16 @@ public class Bullet : MonoBehaviour
         _rb2D = gameObject.GetComponent<Rigidbody2D>();
     }
 
-    public void BulletFly(Quaternion direction, Vector3 startPoint)
+    public void BulletFly(Quaternion angle, Vector3 startPoint, Vector3 direction)
     {
         transform.position = startPoint;
-        transform.rotation = direction;
-        _rb2D.linearVelocity = (Vector2.right * _bulletSpeed);
+        transform.rotation = angle;
+        _rb2D.linearVelocity = (direction * _bulletSpeed);
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.collider.TryGetComponent(out GameplayEntity controller))
+        if (collision.TryGetComponent(out GameplayEntity controller))
         {
             DealDamage(controller.HealthComponent);
         }

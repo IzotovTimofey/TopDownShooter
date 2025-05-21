@@ -4,15 +4,10 @@ public class PlayerDirectionProvider : MonoBehaviour
 {
     [SerializeField] private InputReader _reader;
 
-    private Vector2 _moveDirection;
-    private Vector3 _mousePositionV3;
-    private Vector3 _idleDashDirection;
-    private Quaternion _mouseLookAngle;
-
-    public Vector2 MoveDirection => _moveDirection;
-    public Vector3 MousePositionV3 => _mousePositionV3;
-    public Vector3 IdleDashDirection => _idleDashDirection;
-    public Quaternion MouseLookAngle => _mouseLookAngle;
+    public Vector2 MoveDirection { get; private set; }
+    public Vector3 DirectionToMouse { get; private set; }
+    public Vector3 IdleDashDirection { get; private set; }
+    public Quaternion MouseLookAngle { get; private set; }
 
     private void Update()
     {
@@ -22,15 +17,15 @@ public class PlayerDirectionProvider : MonoBehaviour
     private void GetDirection()
     {
         Vector3 mouseScreenPosition = Camera.main.ScreenToWorldPoint(_reader.LookInput);
-        Vector3 mousePosV3 = mouseScreenPosition - transform.position;
-        _mousePositionV3 = mousePosV3;
+        Vector3 directionToMouse = mouseScreenPosition - transform.position;
+        DirectionToMouse = directionToMouse;
 
-        float angle = Mathf.Atan2(mousePosV3.y, mousePosV3.x) * Mathf.Rad2Deg;
-        _mouseLookAngle = Quaternion.Euler(new Vector3(0,0, angle));
+        float angle = Mathf.Atan2(directionToMouse.y, directionToMouse.x) * Mathf.Rad2Deg;
+        MouseLookAngle = Quaternion.Euler(new Vector3(0,0, angle));
 
-        mousePosV3.z = 0;
-        _idleDashDirection = mousePosV3.normalized;
+        directionToMouse.z = 0;
+        IdleDashDirection = directionToMouse.normalized;
 
-        _moveDirection = _reader.MoveInput.normalized;
+        MoveDirection = _reader.MoveInput.normalized;
     }
 }
