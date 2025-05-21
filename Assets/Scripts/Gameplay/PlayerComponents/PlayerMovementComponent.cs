@@ -41,15 +41,13 @@ public class PlayerMovementComponent : MonoBehaviour
 
     private void Move()
     {
-        Vector2 moveDirection = _directionProvider.GetWalkDirection();
-        _rb2D.linearVelocity = moveDirection * _moveSpeed;
+        _rb2D.linearVelocity = _directionProvider.MoveDirection * _moveSpeed;
     }
 
     private void Look()
     {
-        Vector3 lookDirection = _directionProvider.GetLookDirectionVector();
-        if (lookDirection.magnitude > _turningThreshold)
-           transform.rotation = _directionProvider.GetLookDirection();
+        if (_directionProvider.MousePositionV3.magnitude > _turningThreshold)
+            transform.rotation = _directionProvider.MouseLookAngle;
     }
     private void Dash()
     {
@@ -61,10 +59,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     private IEnumerator PerformingDash()
     {
-        Vector2 moveDirection = _directionProvider.GetWalkDirection();
-        Vector3 targetDirection = _directionProvider.GetIdleDashDirection();
-
-        _rb2D.linearVelocity = moveDirection == Vector2.zero ? targetDirection * _dashForceValue : moveDirection * _dashForceValue;
+        _rb2D.linearVelocity = _directionProvider.MoveDirection == Vector2.zero ? _directionProvider.IdleDashDirection * _dashForceValue : _directionProvider.MoveDirection * _dashForceValue;
 
         _canDash = false;
         _isDashing = true;

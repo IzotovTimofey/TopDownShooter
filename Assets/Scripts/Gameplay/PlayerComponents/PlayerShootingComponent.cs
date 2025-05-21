@@ -20,11 +20,7 @@ public class PlayerShootingComponent : MonoBehaviour
 
     private void Shoot()
     {
-        Quaternion targetRotation = _directionProvider.GetLookDirection();
-        _factory.SpawnBullet(targetRotation, _shootPoint.position);
-        
-        //GameObject projectile = Instantiate(_bulletPrefab, _shootPoint.position, _shootPoint.rotation);
-        //projectile.GetComponent<Rigidbody2D>().AddForce(_shootPoint.right * _bulletSpeed, ForceMode2D.Impulse);
+        _factory.SpawnBullet(_directionProvider.MouseLookAngle, _shootPoint.position);
     }
 
 }

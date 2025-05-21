@@ -15,7 +15,6 @@ public class Bullet : MonoBehaviour
 
     public void BulletFly(Quaternion direction, Vector3 startPoint)
     {
-        //TODO: Исправить вращение пули, она смотрит не туда
         transform.position = startPoint;
         transform.rotation = direction;
         _rb2D.linearVelocity = (Vector2.right * _bulletSpeed);
