@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerShootingComponent : MonoBehaviour
 {
@@ -15,8 +16,10 @@ public class PlayerShootingComponent : MonoBehaviour
     private int _maxMagCapacity = 12;
     private int _currentAmmoCount;
 
-    private bool _isReloading;
     private bool _isShooting;
+    private bool _isReloading;
+
+    public event UnityAction<int, int> AmmoValueChanged;
 
     private void Awake()
     {
@@ -25,25 +28,23 @@ public class PlayerShootingComponent : MonoBehaviour
 
     private void OnEnable()
     {
-        _reader.OnPlayerShoot += Shoot;
+        _reader.OnPlayerShoot += TriggerShooting;
         _reader.OnPlayerReload += OnReload;
     }
 
     private void OnDisable()
     {
-        _reader.OnPlayerShoot -= Shoot;
+        _reader.OnPlayerShoot -= TriggerShooting;
         _reader.OnPlayerReload -= OnReload;
     }
 
-    private void Shoot(bool state)
+    private void TriggerShooting(bool state)
     {
         _isShooting = state;
         if (_isShooting)
             StartCoroutine(ShootingCoroutine());
         else
             StopCoroutine(ShootingCoroutine());
-        if (_currentAmmoCount == 0)
-            StartCoroutine(ReloadingCoroutine());
     }
 
     private void OnReload()
@@ -54,18 +55,22 @@ public class PlayerShootingComponent : MonoBehaviour
 
     private IEnumerator ShootingCoroutine()
     {
-        while (_isShooting)
+        while (_isShooting && _currentAmmoCount > 0 && !_isReloading)
         {
             _factory.SpawnBullet(_directionProvider.MouseLookAngle, _shootPoint.position, _directionProvider.IdleDashDirection);
             _currentAmmoCount--;
+            AmmoValueChanged?.Invoke(_currentAmmoCount, _maxMagCapacity);
             yield return new WaitForSeconds(_fireRate);
         }
+        if (_currentAmmoCount <= 0)
+            OnReload();
     }
     private IEnumerator ReloadingCoroutine()
     {
         _isReloading = true;
         yield return new WaitForSeconds(_reloadTimer);
         _currentAmmoCount = _maxMagCapacity;
+        AmmoValueChanged?.Invoke(_currentAmmoCount, _maxMagCapacity);
         _isReloading = false;
     }
 }
