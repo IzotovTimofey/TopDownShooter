@@ -9,7 +9,7 @@ public abstract class GameplayEntity : MonoBehaviour
     public HealthComponent HealthComponent => _healthComponent;
 
 
-    private void Awake()
+    protected virtual void Awake()
     {
         _healthComponent = new HealthComponent(_maxHealth);
     }
