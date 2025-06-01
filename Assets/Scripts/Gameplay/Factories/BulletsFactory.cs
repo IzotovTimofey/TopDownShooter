@@ -7,9 +7,12 @@ public class BulletsFactory : MonoBehaviour
     [SerializeField] private int _startBulletsCapacity;
 
     private GenericPool<Bullet> _bulletsPool;
-
+    
+    public static BulletsFactory Instance { get; private set; }
+    
     private void Awake()
     {
+        Instance = this;
         _bulletsPool = new(null, _bullet, _startBulletsCapacity, _bulletsPoolParent);
     }
 

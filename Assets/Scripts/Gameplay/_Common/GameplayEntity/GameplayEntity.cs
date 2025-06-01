@@ -14,12 +14,12 @@ public abstract class GameplayEntity : MonoBehaviour
         _healthComponent = new HealthComponent(_maxHealth);
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         _healthComponent.EntityDied += OnDeath;
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         _healthComponent.EntityDied -= OnDeath;
     }

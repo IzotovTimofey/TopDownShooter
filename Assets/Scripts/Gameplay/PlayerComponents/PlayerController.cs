@@ -8,4 +8,10 @@ public class PlayerController : GameplayEntity
     {
         gameObject.SetActive(false);
     }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        Instance = this;
+    }
 }

@@ -1,16 +1,40 @@
+using System;
+using System.Collections;
+using UnityEditor;
 using UnityEngine;
 
 public class EnemyShootingComponent : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private Transform _shootPoint;
+
+    [SerializeField] private float _fireRate = 2;
+
+    private BulletsFactory _bulletFactory;
+    private bool _isShooting = false;
+
+    private void Start()
     {
-        
+        _bulletFactory = BulletsFactory.Instance;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Shoot()
     {
-        
+        _isShooting = true;
+        StartCoroutine(ShootingCoroutine());
     }
+
+    private IEnumerator ShootingCoroutine()
+    {
+        while (_isShooting)
+        {
+            _bulletFactory.SpawnBullet(transform.rotation, _shootPoint.position, transform.right);
+            yield return new WaitForSeconds(_fireRate);
+        }
+    }
+
+    public void StopShooting()
+    {
+        _isShooting = false;
+    }
+
 }
