@@ -3,7 +3,8 @@ using System.Collections;
 using UnityEditor;
 using UnityEngine;
 
-public class EnemyShootingComponent : MonoBehaviour
+public class EnemyShootingComponent : MonoBehaviour // TODO: Почему не унаследовано вместе с PlayerShooting от единого Shooting компонента-родителя? Поведение идентичное, 
+// Способ триггера только отличается. Сейчас дубляж кода
 {
     [SerializeField] private Transform _shootPoint;
 
@@ -20,7 +21,7 @@ public class EnemyShootingComponent : MonoBehaviour
     public void Shoot()
     {
         _isShooting = true;
-        StartCoroutine(ShootingCoroutine());
+        StartCoroutine(ShootingCoroutine()); 
     }
 
     private IEnumerator ShootingCoroutine()
@@ -29,6 +30,7 @@ public class EnemyShootingComponent : MonoBehaviour
         {
             _bulletFactory.SpawnBullet(transform.rotation, _shootPoint.position, transform.right);
             yield return new WaitForSeconds(_fireRate);
+            Debug.Log("Shooting");
         }
     }
 

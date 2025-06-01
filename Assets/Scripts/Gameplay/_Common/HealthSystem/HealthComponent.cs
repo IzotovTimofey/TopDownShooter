@@ -2,7 +2,7 @@ using UnityEngine.Events;
 
 public class HealthComponent
 {
-    private int _maxHealth;
+    private int _maxHealth; 
     private int _currentHealth;
 
     public event UnityAction EntityDied;

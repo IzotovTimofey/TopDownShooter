@@ -8,7 +8,7 @@ public class BulletsFactory : MonoBehaviour
 
     private GenericPool<Bullet> _bulletsPool;
     
-    public static BulletsFactory Instance { get; private set; }
+    public static BulletsFactory Instance { get; private set; } // TODO: Снова синглтон, убрать, сделать прокидывание ссылок через SceneBoot/DI Zenject
     
     private void Awake()
     {
@@ -20,6 +20,6 @@ public class BulletsFactory : MonoBehaviour
     {
         Bullet bullet = _bulletsPool.GetObjectFromPool(true);
         bullet.BulletFly(angle, startPoint, direction);
-        //bullet.Setup(startPoint, direction);
+        //bullet.Setup(startPoint, direction); // TODO: ??? Нет такого метода
     }
 }

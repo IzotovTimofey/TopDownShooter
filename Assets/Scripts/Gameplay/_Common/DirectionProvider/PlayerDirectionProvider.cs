@@ -11,7 +11,7 @@ public class PlayerDirectionProvider : MonoBehaviour
 
     private void Update()
     {
-       GetDirection(); 
+       GetDirection(); // TODO: табуляция
     }
 
     private void GetDirection()

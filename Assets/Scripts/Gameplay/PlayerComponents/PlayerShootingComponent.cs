@@ -11,7 +11,7 @@ public class PlayerShootingComponent : MonoBehaviour
 
     [SerializeField] private Transform _shootPoint;
 
-    private float _fireRate = 0.5f;
+    private float _fireRate = 0.5f; // TODO: Элементы настройки, почему не филды? Вынести в SO как параметры для настройки
     private float _reloadTimer = 1.2f;
     private int _maxMagCapacity = 12;
     private int _currentAmmoCount;
@@ -42,9 +42,10 @@ public class PlayerShootingComponent : MonoBehaviour
     {
         _isShooting = state;
         if (_isShooting)
-            StartCoroutine(ShootingCoroutine());
+            StartCoroutine(nameof(ShootingCoroutine)); // TODO: Запомнить и проверить остальные места. Когда тебе нужно остановить запущенную корутину,
+                // Запускай и останавливай её через "nameof". иначе она НЕ остановится, StopCoroutine НЕ сработает
         else
-            StopCoroutine(ShootingCoroutine());
+            StopCoroutine(nameof(ShootingCoroutine));
     }
 
     private void OnReload()
@@ -53,7 +54,7 @@ public class PlayerShootingComponent : MonoBehaviour
         StartCoroutine(ReloadingCoroutine());
     }
 
-    private IEnumerator ShootingCoroutine()
+    private IEnumerator ShootingCoroutine() // TODO: После перезарядки стрельба не продолжается если кнопка всё ещё зажата, приходится отжать и зажать снова
     {
         while (_isShooting && _currentAmmoCount > 0 && !_isReloading)
         {
