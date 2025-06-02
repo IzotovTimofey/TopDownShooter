@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class PlayerController : GameplayEntity
+public class Player : GameplayEntity
 {
     // TODO: Missing Animator на игроке
-    public static PlayerController Instance { get; private set; }
+    public static Player Instance { get; private set; }
 
     protected override void OnDeath()
     {

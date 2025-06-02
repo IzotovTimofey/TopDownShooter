@@ -6,13 +6,13 @@ public class Medkit : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out PlayerController controller))
+        if (collision.TryGetComponent(out Player controller))
         {
-            OnPickUp(controller.HealthComponent);
+            OnPickUp(controller.Health);
         }
     }
 
-    private void OnPickUp(HealthComponent health)
+    private void OnPickUp(Health health)
     {
         health.Heal(_healingValue);
         gameObject.SetActive(false);

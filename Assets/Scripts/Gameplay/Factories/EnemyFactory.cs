@@ -17,7 +17,7 @@ public class EnemyFactory : MonoBehaviour
     [SerializeField] private Transform _boundary1;
     [SerializeField] private Transform _boundary2;
     
-    private GenericPool<EnemyController> _enemyPool;
+    private GenericPool<Enemy> _enemyPool;
     private Vector3 _randomSpawningPosition;
     
     public static EnemyFactory Instance { get; private set; } // TODO: 3ий синглтон за игру.
@@ -34,9 +34,9 @@ public class EnemyFactory : MonoBehaviour
         }
     }
 
-    private EnemyController SpawnEnemy()
+    private Enemy SpawnEnemy()
     {
-        EnemyController enemyController = _enemyPool.GetObjectFromPool(true);
+        Enemy enemy = _enemyPool.GetObjectFromPool(true);
         Vector3 position = Vector3.zero;
         //NavMeshHit hit; // Это объявление можно сделать внутри метода (см 45 стр)
         while (position == Vector3.zero)
@@ -47,12 +47,12 @@ public class EnemyFactory : MonoBehaviour
                 position = hit.position;
             }
         }
-        enemyController.transform.position = position; // TODO: Enemy - NavMeshAgent, нельзя его просто так пихать на конкретную позицию, должно быть использование _agent.Warp(pos)
+        enemy.transform.position = position; // TODO: Enemy - NavMeshAgent, нельзя его просто так пихать на конкретную позицию, должно быть использование _agent.Warp(pos)
         
         var WP1 = ProvideWP(new Vector3(position.x - 5, position.y)); // TODO: Почему 5? магическое число. В целом сомнительный метод генерации WP
         var WP2 = ProvideWP(new Vector3(position.x + 5, position.y)); // Во 1 - не там, во 2, почему 5, как избегать стен, а если хотим в большем диапазоне?
-        enemyController.GetComponent<EnemyMovementComponent>().PatrolWPs.Add(WP1.transform); // Полное отсутствие гибкости, невозможность настраивать патруль ВНЕ скриптов
-        enemyController.GetComponent<EnemyMovementComponent>().PatrolWPs.Add(WP2.transform); // Создать отдельный Патруль контейнер, расставить такие контейнеры на карте, 
+        enemy.GetComponent<EnemyMover>().PatrolWPs.Add(WP1.transform); // Полное отсутствие гибкости, невозможность настраивать патруль ВНЕ скриптов
+        enemy.GetComponent<EnemyMover>().PatrolWPs.Add(WP2.transform); // Создать отдельный Патруль контейнер, расставить такие контейнеры на карте, 
         // и спавнить врагов в эти самые контейнеры. Не должны ВСЕ противники быть патрульными, поведение может быть разным. Патруль - обычно используется для КОНКРЕТНЫХ мест
         // а тут ты сам себе в колено стреляешь, пытаясь придумать систему, котороый никто не станет пользоваться. 
         // По логике - разбить спавн на этапы: 1. Заполнить патруль контейнеры врагами (они там будут патрулировать, сам патруль контейнер пускай их уже направляет)
@@ -60,7 +60,7 @@ public class EnemyFactory : MonoBehaviour
         // о спавне врагов на конркретных местах. В играх никогда враги не спавнятся просто в случайных местах в шутерах таких (если только это не какие то условные арены)
         // Если есть конкретный уровень с конкретным строением - Level дизайнеры обычно сами расставляют врагов по точкам, продумывая бои, продумывая сценарии, и всё такое. 
         // Сейчас у тебя система к этому не готова.
-        return enemyController;
+        return enemy;
     }
 
     private Vector3 GetSpawningPosition()

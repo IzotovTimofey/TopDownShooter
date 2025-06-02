@@ -1,13 +1,13 @@
 using UnityEngine.Events;
 
-public class HealthComponent
+public class Health
 {
     private int _maxHealth; 
     private int _currentHealth;
 
     public event UnityAction EntityDied;
 
-    public HealthComponent(int healthValue)
+    public Health(int healthValue)
     {
         _maxHealth = healthValue;
         _currentHealth = healthValue;

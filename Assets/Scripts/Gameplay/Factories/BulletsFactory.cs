@@ -20,6 +20,5 @@ public class BulletsFactory : MonoBehaviour
     {
         Bullet bullet = _bulletsPool.GetObjectFromPool(true);
         bullet.BulletFly(angle, startPoint, direction);
-        //bullet.Setup(startPoint, direction); // TODO: ??? Нет такого метода
     }
 }

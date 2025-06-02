@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AmmoDisplay : MonoBehaviour
 {
-    [SerializeField] private PlayerShootingComponent _player;
+    [SerializeField] private PlayerShooter _player;
     [SerializeField] private TMP_Text _ammoCounter;
 
     private void OnEnable()

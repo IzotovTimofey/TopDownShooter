@@ -4,24 +4,24 @@ public abstract class GameplayEntity : MonoBehaviour
 {
     [SerializeField] private int _maxHealth;
 
-    private HealthComponent _healthComponent;
+    private Health _health;
 
-    public HealthComponent HealthComponent => _healthComponent;
+    public Health Health => _health;
 
 
     protected virtual void Awake()
     {
-        _healthComponent = new HealthComponent(_maxHealth);
+        _health = new Health(_maxHealth);
     }
 
     protected virtual void OnEnable()
     {
-        _healthComponent.EntityDied += OnDeath;
+        _health.EntityDied += OnDeath;
     }
 
     protected virtual void OnDisable()
     {
-        _healthComponent.EntityDied -= OnDeath;
+        _health.EntityDied -= OnDeath;
     }
 
     protected abstract void OnDeath();

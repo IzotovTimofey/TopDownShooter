@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Bullet : MonoBehaviour
 {
@@ -24,13 +23,22 @@ public class Bullet : MonoBehaviour
     {
         if (collision.TryGetComponent(out GameplayEntity controller))
         {
-            DealDamage(controller.HealthComponent);
+            DealDamage(controller.Health);
         }
-        gameObject.SetActive(false);
+        else if (collision.gameObject.tag == "Map")
+        {
+            Release();
+        }
     }
 
-    private void DealDamage(HealthComponent healthComponent)
+    private void DealDamage(Health health)
     {
-        healthComponent.TakeDamage(_damageValue);
+        health.TakeDamage(_damageValue);
+        Release();
+    }
+
+    private void Release()
+    {
+        gameObject.SetActive(false);
     }
 }
