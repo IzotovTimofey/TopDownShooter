@@ -238,6 +238,8 @@ MonoBehaviour:
   _enemyMover: {fileID: 8976536023392088016}
   _enemyShooter: {fileID: 5154138675732763774}
   _detector: {fileID: 145776023532393380}
+  _patrolPointReachDistance: 1.5
+  _patrolRoute: []
 --- !u!195 &8401914187856791083
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -272,9 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5337334b5f76f3f42833dd5524ca3530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _destinationReachingPoint: 1.5
   _rotationSpeed: 140
-  PatrolWPs: []
 --- !u!114 &5154138675732763774
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using UnityEditor;
 using UnityEngine;
 
 public class
@@ -14,16 +12,18 @@ public class
     private BulletsFactory _bulletFactory;
     private bool _isShooting;
 
-    private void Start()
+    public void GetBulletsFactoryReference(BulletsFactory factory)
     {
-        _bulletFactory = BulletsFactory.Instance;
+        _bulletFactory = factory;
     }
 
     public void Shoot(bool state)
     {
         _isShooting = state;
         if (_isShooting)
+        {
             StartCoroutine(nameof(ShootingCoroutine));
+        }
         else
             StopCoroutine(nameof(ShootingCoroutine));
     }

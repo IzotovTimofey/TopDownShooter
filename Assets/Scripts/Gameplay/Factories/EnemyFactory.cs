@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -7,20 +8,16 @@ public class EnemyFactory : MonoBehaviour
 {
     // TODO: Нарушение SOLID, класс делает сразу несколько вещей, исправить. Каким боком к спавну врагов относится спавн каких то WP непонятных - не ясно
     // + читать сложнее становится сразу, класс засран
-    [SerializeField] private Transform _containerWP;
-    [SerializeField] private GameObject _prefabWP;
+    [SerializeField] private BulletsFactory _bulletsFactory;
     [SerializeField] private GameObject _enemyPrefab;
     [SerializeField] private Transform _enemyPoolParent;
     [SerializeField] private int _enemyPoolCapacity;
     [SerializeField] private int _enemyCount = 2;
+    [SerializeField] private EnemyPatrolPoints[] _spawnPoints;
 
-    [SerializeField] private Transform _boundary1;
-    [SerializeField] private Transform _boundary2;
-    
     private GenericPool<Enemy> _enemyPool;
-    private Vector3 _randomSpawningPosition;
-    
-    public static EnemyFactory Instance { get; private set; } // TODO: 3ий синглтон за игру.
+    private int _currentPatrolRoute;
+
     private void Awake()
     {
         _enemyPool = new(null, _enemyPrefab, _enemyPoolCapacity, _enemyPoolParent);
@@ -28,7 +25,7 @@ public class EnemyFactory : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i <_enemyCount ; i++)
+        for (int i = 0; i < _enemyCount; i++)
         {
             SpawnEnemy();
         }
@@ -37,22 +34,18 @@ public class EnemyFactory : MonoBehaviour
     private Enemy SpawnEnemy()
     {
         Enemy enemy = _enemyPool.GetObjectFromPool(true);
-        Vector3 position = Vector3.zero;
-        //NavMeshHit hit; // Это объявление можно сделать внутри метода (см 45 стр)
-        while (position == Vector3.zero)
-        {
-            var pos = GetSpawningPosition();
-            if (NavMesh.SamplePosition(pos, out NavMeshHit hit, 2, NavMesh.AllAreas))
-            {
-                position = hit.position;
-            }
-        }
-        enemy.transform.position = position; // TODO: Enemy - NavMeshAgent, нельзя его просто так пихать на конкретную позицию, должно быть использование _agent.Warp(pos)
-        
-        var WP1 = ProvideWP(new Vector3(position.x - 5, position.y)); // TODO: Почему 5? магическое число. В целом сомнительный метод генерации WP
-        var WP2 = ProvideWP(new Vector3(position.x + 5, position.y)); // Во 1 - не там, во 2, почему 5, как избегать стен, а если хотим в большем диапазоне?
-        enemy.GetComponent<EnemyMover>().PatrolWPs.Add(WP1.transform); // Полное отсутствие гибкости, невозможность настраивать патруль ВНЕ скриптов
-        enemy.GetComponent<EnemyMover>().PatrolWPs.Add(WP2.transform); // Создать отдельный Патруль контейнер, расставить такие контейнеры на карте, 
+        NavMeshAgent enemyAgent = enemy.GetComponent<NavMeshAgent>();
+        enemy.GetComponent<EnemyShooter>().GetBulletsFactoryReference(_bulletsFactory);
+        enemy.SetUp(GetPatrolRoute());
+        enemyAgent.Warp(_spawnPoints[_currentPatrolRoute].transform.position);
+        _currentPatrolRoute++;
+
+        return enemy;
+
+        // TODO: Enemy - NavMeshAgent, нельзя его просто так пихать на конкретную позицию, должно быть использование _agent.Warp(pos)
+        // Во 1 - не там, во 2, почему 5, как избегать стен, а если хотим в большем диапазоне?
+        // Полное отсутствие гибкости, невозможность настраивать патруль ВНЕ скриптов
+        // Создать отдельный Патруль контейнер, расставить такие контейнеры на карте, 
         // и спавнить врагов в эти самые контейнеры. Не должны ВСЕ противники быть патрульными, поведение может быть разным. Патруль - обычно используется для КОНКРЕТНЫХ мест
         // а тут ты сам себе в колено стреляешь, пытаясь придумать систему, котороый никто не станет пользоваться. 
         // По логике - разбить спавн на этапы: 1. Заполнить патруль контейнеры врагами (они там будут патрулировать, сам патруль контейнер пускай их уже направляет)
@@ -60,21 +53,10 @@ public class EnemyFactory : MonoBehaviour
         // о спавне врагов на конркретных местах. В играх никогда враги не спавнятся просто в случайных местах в шутерах таких (если только это не какие то условные арены)
         // Если есть конкретный уровень с конкретным строением - Level дизайнеры обычно сами расставляют врагов по точкам, продумывая бои, продумывая сценарии, и всё такое. 
         // Сейчас у тебя система к этому не готова.
-        return enemy;
     }
 
-    private Vector3 GetSpawningPosition()
+    private List<Transform> GetPatrolRoute()
     {
-        _randomSpawningPosition = new Vector3(
-            Random.Range(_boundary1.position.x, _boundary2.position.x),
-            Random.Range(_boundary1.position.y, _boundary2.position.y));
-        return _randomSpawningPosition;
-    }
-
-    public GameObject ProvideWP(Vector3 position) // TODO: Неверное название метода, он делает не это
-    {// Модификатор доступа, почему паблик?
-        var wp = Instantiate(_prefabWP, _containerWP);
-        wp.transform.position = position;
-        return wp;
+        return _spawnPoints[_currentPatrolRoute].GetPatrolRoute();
     }
 }

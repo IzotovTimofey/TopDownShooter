@@ -7,12 +7,10 @@ public class BulletsFactory : MonoBehaviour
     [SerializeField] private int _startBulletsCapacity;
 
     private GenericPool<Bullet> _bulletsPool;
-    
-    public static BulletsFactory Instance { get; private set; } // TODO: Снова синглтон, убрать, сделать прокидывание ссылок через SceneBoot/DI Zenject
+    // TODO: сделать прокидывание ссылок через SceneBoot/DI Zenject
     
     private void Awake()
     {
-        Instance = this;
         _bulletsPool = new(null, _bullet, _startBulletsCapacity, _bulletsPoolParent);
     }
 

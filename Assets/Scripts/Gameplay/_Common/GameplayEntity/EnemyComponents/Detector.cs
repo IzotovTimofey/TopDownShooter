@@ -12,14 +12,14 @@ public class Detector : MonoBehaviour
     private float _distanceToPlayer;
 
     public event UnityAction<Transform> PlayerDetected;
-    public event UnityAction<bool> CheckRange;
+    public event UnityAction<bool> InShootingRange;
+    public event UnityAction PlayerFled;
 
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.TryGetComponent(out Player player))
         {
             OnPlayerDetect(player);
-            CheckDistance(_distanceToPlayer);
         }
     }
 
@@ -49,6 +49,7 @@ public class Detector : MonoBehaviour
     {
         _playerInArea = false;
         _player = null;
+        PlayerFled?.Invoke();
     }
 
     private void CheckDistance(float distance)
@@ -56,12 +57,12 @@ public class Detector : MonoBehaviour
         if (distance <= _shootingDistance && !_canShoot)
         {
             _canShoot = true;
-            CheckRange?.Invoke(_canShoot);
+            InShootingRange?.Invoke(_canShoot);
         }
         else if (distance >= _shootingDistance)
         {
             _canShoot = false;
-            CheckRange?.Invoke(_canShoot);
+            InShootingRange?.Invoke(_canShoot);
         }
     }
 }
