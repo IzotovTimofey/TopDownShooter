@@ -1,16 +1,28 @@
+using System.Collections;
 using UnityEngine;
 
-public class GameplayEntityShooter : MonoBehaviour
+public abstract class GameplayEntityShooter : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected float FireRate;
+    protected bool IsShooting;
+    protected bool CanShoot = true;
+    
+    public void Shoot(bool state)
     {
-        
+        IsShooting = state;
+        if (IsShooting)
+        {
+            StartCoroutine(nameof(ShootingCoroutine));
+        }
+        else
+            StopCoroutine(nameof(ShootingCoroutine));
     }
 
-    // Update is called once per frame
-    void Update()
+    protected abstract IEnumerator ShootingCoroutine();
+
+    protected IEnumerator LimitFireRateCoroutine()
     {
-        
+        yield return new WaitForSeconds(FireRate);
+        CanShoot = true;
     }
 }

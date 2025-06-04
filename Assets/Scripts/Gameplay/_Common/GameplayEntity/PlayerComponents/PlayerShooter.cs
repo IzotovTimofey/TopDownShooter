@@ -1,23 +1,21 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PlayerShooter : MonoBehaviour
+public class PlayerShooter : GameplayEntityShooter
 {
     [SerializeField] private InputReader _reader;
     [SerializeField] private PlayerDirectionProvider _directionProvider;
-    [SerializeField] private BulletsFactory _factory;
 
     [SerializeField] private Transform _shootPoint;
 
-    private float _fireRate = 0.5f; // TODO: Элементы настройки, почему не филды? Вынести в SO как параметры для настройки
+    private BulletsFactory _factory; 
+    // TODO: Элементы настройки, почему не филды? Вынести в SO как параметры для настройки
 
     private float _reloadTimer = 1.2f;
     private int _maxMagCapacity = 12;
     private int _currentAmmoCount;
-
-    private bool _isShooting;
+    
     private bool _isReloading;
 
     public event UnityAction<int, int> AmmoValueChanged;
@@ -25,27 +23,24 @@ public class PlayerShooter : MonoBehaviour
     private void Awake()
     {
         _currentAmmoCount = _maxMagCapacity;
+        FireRate = 0.5f;
     }
 
     private void OnEnable()
     {
-        _reader.OnPlayerShoot += TriggerShooting;
+        _reader.OnPlayerShoot += Shoot;
         _reader.OnPlayerReload += OnReload;
     }
 
     private void OnDisable()
     {
-        _reader.OnPlayerShoot -= TriggerShooting;
+        _reader.OnPlayerShoot -= Shoot;
         _reader.OnPlayerReload -= OnReload;
     }
 
-    private void TriggerShooting(bool state)
+    public void SetUp(BulletsFactory factory)
     {
-        _isShooting = state;
-        if (_isShooting)
-            StartCoroutine(nameof(ShootingCoroutine));
-        else
-            StopCoroutine(nameof(ShootingCoroutine));
+        _factory = factory;
     }
 
     private void OnReload()
@@ -53,22 +48,22 @@ public class PlayerShooter : MonoBehaviour
         StartCoroutine(nameof(ReloadingCoroutine));
     }
 
-    private IEnumerator ShootingCoroutine() // TODO: После перезарядки стрельба не продолжается если кнопка всё ещё зажата, приходится отжать и зажать снова
+    protected override IEnumerator ShootingCoroutine() // TODO: После перезарядки стрельба не продолжается если кнопка всё ещё зажата, приходится отжать и зажать снова
     {
-        while (_isShooting)
+        while (IsShooting)
         {
-            if (!_isReloading)
+            if (CanShoot && !_isReloading)
             {
-                
+                _factory.SpawnBullet(_directionProvider.MouseLookAngle, _shootPoint.position, _directionProvider.IdleDashDirection);
+                _currentAmmoCount--;
+                AmmoValueChanged?.Invoke(_currentAmmoCount, _maxMagCapacity);
+                CanShoot = false;
+                StartCoroutine(nameof(LimitFireRateCoroutine));
             }
-            _factory.SpawnBullet(_directionProvider.MouseLookAngle, _shootPoint.position,
-                _directionProvider.IdleDashDirection);
-            _currentAmmoCount--;
-            AmmoValueChanged?.Invoke(_currentAmmoCount, _maxMagCapacity);
             if (_currentAmmoCount <= 0)
                 yield return StartCoroutine(nameof(ReloadingCoroutine));
             else
-                yield return new WaitForSeconds(_fireRate);
+                yield return new WaitForSeconds(FireRate);
         }
     }
 
