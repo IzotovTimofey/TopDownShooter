@@ -3,10 +3,16 @@ using UnityEngine;
 
 public abstract class GameplayEntityShooter : MonoBehaviour
 {
-    protected float FireRate;
+    [SerializeField] protected RangedWeapon CurrentWeapon;
     protected bool IsShooting;
     protected bool CanShoot = true;
-    
+    protected bool IsReloading;
+
+    protected virtual void Awake()
+    {
+        CurrentWeapon.SetInitialAmmo();
+    }
+
     public void Shoot(bool state)
     {
         IsShooting = state;
@@ -22,7 +28,9 @@ public abstract class GameplayEntityShooter : MonoBehaviour
 
     protected IEnumerator LimitFireRateCoroutine()
     {
-        yield return new WaitForSeconds(FireRate);
+        yield return new WaitForSeconds(CurrentWeapon.FireRate);
         CanShoot = true;
     }
+
+    protected abstract IEnumerator ReloadingCoroutine();
 }

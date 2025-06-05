@@ -1,17 +1,11 @@
 using System.Collections;
 using UnityEngine;
 
-public class
-    EnemyShooter : GameplayEntityShooter
+public class EnemyShooter : GameplayEntityShooter
 {
     [SerializeField] private Transform _shootPoint;
 
     private BulletsFactory _bulletFactory;
-
-    private void Awake()
-    {
-        FireRate = 2;
-    }
 
     public void GetBulletsFactoryReference(BulletsFactory factory)
     {
@@ -22,13 +16,26 @@ public class
     {
         while (IsShooting)
         {
-            if (CanShoot)
+            if (CanShoot && !IsReloading)
             {
                 _bulletFactory.SpawnBullet(transform.rotation, _shootPoint.position, transform.right);
+                CurrentWeapon.Shoot();
                 CanShoot = false;
                 StartCoroutine(nameof(LimitFireRateCoroutine));
             }
-            yield return new WaitForSeconds(FireRate);
+
+            if (CurrentWeapon.CurrentAmmoCount <= 0)
+                yield return StartCoroutine(nameof(ReloadingCoroutine));
+            else
+                yield return new WaitForSeconds(CurrentWeapon.FireRate);
         }
+    }
+
+    protected override IEnumerator ReloadingCoroutine()
+    {
+        IsReloading = true;
+        yield return new WaitForSeconds(CurrentWeapon.ReloadTimer);
+        CurrentWeapon.Reload();
+        IsReloading = false;
     }
 }

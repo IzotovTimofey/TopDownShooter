@@ -6,25 +6,12 @@ public class PlayerShooter : GameplayEntityShooter
 {
     [SerializeField] private InputReader _reader;
     [SerializeField] private PlayerDirectionProvider _directionProvider;
-
+    
     [SerializeField] private Transform _shootPoint;
 
-    private BulletsFactory _factory; 
-    // TODO: Элементы настройки, почему не филды? Вынести в SO как параметры для настройки
-
-    private float _reloadTimer = 1.2f;
-    private int _maxMagCapacity = 12;
-    private int _currentAmmoCount;
-    
-    private bool _isReloading;
+    private BulletsFactory _factory;
 
     public event UnityAction<int, int> AmmoValueChanged;
-
-    private void Awake()
-    {
-        _currentAmmoCount = _maxMagCapacity;
-        FireRate = 0.5f;
-    }
 
     private void OnEnable()
     {
@@ -48,31 +35,31 @@ public class PlayerShooter : GameplayEntityShooter
         StartCoroutine(nameof(ReloadingCoroutine));
     }
 
-    protected override IEnumerator ShootingCoroutine() // TODO: После перезарядки стрельба не продолжается если кнопка всё ещё зажата, приходится отжать и зажать снова
+    protected override IEnumerator ShootingCoroutine()
     {
         while (IsShooting)
         {
-            if (CanShoot && !_isReloading)
+            if (CanShoot && !IsReloading)
             {
                 _factory.SpawnBullet(_directionProvider.MouseLookAngle, _shootPoint.position, _directionProvider.IdleDashDirection);
-                _currentAmmoCount--;
-                AmmoValueChanged?.Invoke(_currentAmmoCount, _maxMagCapacity);
+                CurrentWeapon.Shoot();
+                AmmoValueChanged?.Invoke(CurrentWeapon.CurrentAmmoCount, CurrentWeapon.MaxMagCapacity);
                 CanShoot = false;
                 StartCoroutine(nameof(LimitFireRateCoroutine));
             }
-            if (_currentAmmoCount <= 0)
+            if (CurrentWeapon.CurrentAmmoCount <= 0)
                 yield return StartCoroutine(nameof(ReloadingCoroutine));
             else
-                yield return new WaitForSeconds(FireRate);
+                yield return new WaitForSeconds(CurrentWeapon.FireRate);
         }
     }
 
-    private IEnumerator ReloadingCoroutine()
+    protected override IEnumerator ReloadingCoroutine()
     {
-        _isReloading = true;
-        yield return new WaitForSeconds(_reloadTimer);
-        _currentAmmoCount = _maxMagCapacity;
-        AmmoValueChanged?.Invoke(_currentAmmoCount, _maxMagCapacity);
-        _isReloading = false;
+        IsReloading = true;
+        yield return new WaitForSeconds(CurrentWeapon.ReloadTimer);
+        CurrentWeapon.Reload();
+        AmmoValueChanged?.Invoke(CurrentWeapon.CurrentAmmoCount, CurrentWeapon.MaxMagCapacity);
+        IsReloading = false;
     }
 }

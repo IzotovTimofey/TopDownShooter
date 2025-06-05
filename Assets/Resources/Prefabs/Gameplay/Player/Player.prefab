@@ -84,7 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f842b29088ada634db42a9367c69c99b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 100
+  _maxHealth: 1000
 --- !u!114 &1648384521399053598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,9 +179,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1970412b2b11fc147b993d21dabc1385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentWeapon: {fileID: 11400000, guid: 5feca0889b749444d846364f4be2a251, type: 2}
   _reader: {fileID: 8139087336362351101}
   _directionProvider: {fileID: 4500720336936239040}
-  _factory: {fileID: 0}
   _shootPoint: {fileID: 8191739371468846485}
 --- !u!114 &8139087336362351101
 MonoBehaviour:

@@ -1,14 +1,30 @@
 using UnityEngine;
 
-public abstract class RangedWeapon : MonoBehaviour
+public abstract class RangedWeapon : ScriptableObject
 {
-    [SerializeField] protected GameObject _bulletPrefab;
+    [SerializeField] private int _maxMagCapacity;
+    [SerializeField] private float _reloadTimer;
+    [SerializeField] private float _fireRate;
 
-    protected int _clipSize;
-    protected float _reloadTimer;
-    protected float _fireRate;
-    protected float _bulletSpeed;
+    private int _currentAmmoCount;
+
+    public int MaxMagCapacity => _maxMagCapacity;
+    public float ReloadTimer => _reloadTimer;
+    public float FireRate => _fireRate;
+    public int CurrentAmmoCount => _currentAmmoCount;
+
+    public void SetInitialAmmo()
+    {
+        _currentAmmoCount = _maxMagCapacity;
+    }
     
-    public Transform ShootPoint;
-    public abstract void Shoot();
+    public void Shoot()
+    {
+        _currentAmmoCount--;
+    }
+
+    public void Reload()
+    {
+        _currentAmmoCount = _maxMagCapacity;
+    }
 }
