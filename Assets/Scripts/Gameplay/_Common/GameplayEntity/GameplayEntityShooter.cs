@@ -7,11 +7,7 @@ public abstract class GameplayEntityShooter : MonoBehaviour
     protected bool IsShooting;
     protected bool CanShoot = true;
     protected bool IsReloading;
-
-    protected virtual void Awake()
-    {
-        CurrentWeapon.SetInitialAmmo();
-    }
+    protected int CurrentAmmoCount;
 
     public void Shoot(bool state)
     {

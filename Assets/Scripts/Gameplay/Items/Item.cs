@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public abstract class Item : MonoBehaviour
+public class Item : MonoBehaviour
 {
-    protected abstract void OnPickUp();
+    //TODO: Сделать интерактор для персонажа, не важно, какой предмет подбирает игрок, сам объект это контейнер для СО
+    [SerializeField] private ScriptableObject _item;
+
+    public ScriptableObject Collectable => _item;
 }

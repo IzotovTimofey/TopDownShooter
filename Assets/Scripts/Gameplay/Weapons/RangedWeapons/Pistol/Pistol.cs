@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Pistol", menuName = "Weapons")]
+[CreateAssetMenu(menuName = "Weapons/Pistol", fileName = "New Pistol SO")]
 public class Pistol : RangedWeapon
 {
 }

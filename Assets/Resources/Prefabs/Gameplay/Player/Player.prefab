@@ -183,6 +183,8 @@ MonoBehaviour:
   _reader: {fileID: 8139087336362351101}
   _directionProvider: {fileID: 4500720336936239040}
   _shootPoint: {fileID: 8191739371468846485}
+  _weapons:
+  - {fileID: 11400000, guid: 32f6cc86ae766364d9bcf10cf5695cd1, type: 2}
 --- !u!114 &8139087336362351101
 MonoBehaviour:
   m_ObjectHideFlags: 0

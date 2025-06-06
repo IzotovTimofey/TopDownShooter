@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 919b01fef805bc9459b3176856500790, type: 3}
-  m_Name: Pistol
+  m_Script: {fileID: 11500000, guid: f50d83a22ec785a49bcd5133e72ec95d, type: 3}
+  m_Name: Medkit
   m_EditorClassIdentifier: 
-  _sprite: {fileID: 4319395737909131107, guid: c90f3391d48d04047aecf787279e541e, type: 3}
-  _maxMagCapacity: 12
-  _reloadTimer: 1.5
-  _fireRate: 0.5
+  _healingValue: 25

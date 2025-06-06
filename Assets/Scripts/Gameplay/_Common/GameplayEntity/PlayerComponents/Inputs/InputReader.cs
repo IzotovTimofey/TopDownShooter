@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -9,12 +8,14 @@ public class InputReader : MonoBehaviour
 
     private Vector2 _moveInput;
     private Vector2 _lookInput;
+    private float _scrollValue;
 
     public Vector2 MoveInput => _moveInput;
     public Vector2 LookInput => _lookInput;
     public event UnityAction OnPlayerDashInput;
     public event UnityAction<bool> OnPlayerShoot;
     public event UnityAction OnPlayerReload;
+    public event UnityAction<float> OnPlayerWeaponSwap;
 
     private void OnEnable()
     {
@@ -34,6 +35,8 @@ public class InputReader : MonoBehaviour
         _inputSystem.Player.Shoot.canceled += OnShoot;
 
         _inputSystem.Player.Reload.performed += OnReload;
+
+        _inputSystem.Player.SwapWeapon.performed += OnWeaponSwap;
     }
 
     private void OnDisable()
@@ -51,6 +54,8 @@ public class InputReader : MonoBehaviour
         _inputSystem.Player.Shoot.canceled -= OnShoot;
 
         _inputSystem.Player.Reload.performed -= OnReload;
+
+        _inputSystem.Player.SwapWeapon.performed -= OnWeaponSwap;
 
         _inputSystem.Disable();
     }
@@ -78,5 +83,11 @@ public class InputReader : MonoBehaviour
     private void OnReload(InputAction.CallbackContext context)
     {
         OnPlayerReload?.Invoke();
+    }
+
+    private void OnWeaponSwap(InputAction.CallbackContext context)
+    {
+        _scrollValue = context.ReadValue<float>();
+        OnPlayerWeaponSwap?.Invoke(_scrollValue);
     }
 }
