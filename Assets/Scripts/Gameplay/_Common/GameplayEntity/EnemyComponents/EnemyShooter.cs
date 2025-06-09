@@ -8,11 +8,6 @@ public class EnemyShooter : GameplayEntityShooter
 
     private BulletsFactory _bulletFactory;
 
-    private void Awake()
-    {
-        CurrentAmmoCount = CurrentWeapon.MaxMagCapacity;
-    }
-
     public void GetBulletsFactoryReference(BulletsFactory factory)
     {
         _bulletFactory = factory;
@@ -25,12 +20,12 @@ public class EnemyShooter : GameplayEntityShooter
             if (CanShoot && !IsReloading)
             {
                 _bulletFactory.SpawnBullet(transform.rotation, _shootPoint.position, transform.right);
-                CurrentAmmoCount--;
+                CurrentWeapon.Shoot();
                 CanShoot = false;
                 StartCoroutine(nameof(LimitFireRateCoroutine));
             }
 
-            if (CurrentAmmoCount <= 0)
+            if (CurrentWeapon.CurrentAmmo <= 0)
                 yield return StartCoroutine(nameof(ReloadingCoroutine));
             else
                 yield return new WaitForSeconds(CurrentWeapon.FireRate);
@@ -41,7 +36,7 @@ public class EnemyShooter : GameplayEntityShooter
     {
         IsReloading = true;
         yield return new WaitForSeconds(CurrentWeapon.ReloadTimer);
-        CurrentAmmoCount = CurrentWeapon.MaxMagCapacity;
+        CurrentWeapon.Reload();
         IsReloading = false;
     }
 }

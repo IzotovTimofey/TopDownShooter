@@ -287,7 +287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ec764edf201d35468f7ddb682cca962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentWeapon: {fileID: 11400000, guid: 5feca0889b749444d846364f4be2a251, type: 2}
+  StartingWeapon: {fileID: 11400000, guid: 5feca0889b749444d846364f4be2a251, type: 2}
   _shootPoint: {fileID: 8747965271108746095}
 --- !u!1 &7654905554556202469
 GameObject:

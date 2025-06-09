@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f50d83a22ec785a49bcd5133e72ec95d, type: 3}
   m_Name: Medkit
   m_EditorClassIdentifier: 
+  _sprite: {fileID: -3611840658809817978, guid: 538aca9703ff90a45b4f1c76b4d803d3, type: 3}
   _healingValue: 25

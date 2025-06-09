@@ -1,13 +1,19 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public abstract class GameplayEntityShooter : MonoBehaviour
 {
-    [SerializeField] protected RangedWeapon CurrentWeapon;
+    [SerializeField] protected RangedWeapon StartingWeapon;
     protected bool IsShooting;
     protected bool CanShoot = true;
     protected bool IsReloading;
-    protected int CurrentAmmoCount;
+    protected PickedUpWeapon CurrentWeapon;
+
+    protected virtual void Awake()
+    {
+        CurrentWeapon = new PickedUpWeapon(StartingWeapon);
+    }
 
     public void Shoot(bool state)
     {
