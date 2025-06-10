@@ -2,20 +2,22 @@ using UnityEngine;
 
 public class PlayerInteractor : MonoBehaviour
 {
+    private GameObject _player;
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.TryGetComponent(out Item item))
         {
-            PickUp(item.GetComponent<ScriptableObject>());
+            PickUp(item);
         }
     }
 
-    private void PickUp(ScriptableObject obj)
+    private void PickUp(Item item)
     {
-        if (obj is RangedWeapon)
-        {
-            
-        }
-        
+        item.OnPickUp(_player);
+    }
+
+    public void GetPlayerReference(GameObject player)
+    {
+        _player = player;
     }
 }

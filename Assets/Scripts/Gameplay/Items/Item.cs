@@ -1,20 +1,24 @@
-using System;
 using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    //TODO: Сделать интерактор для персонажа, не важно, какой предмет подбирает игрок, сам объект это контейнер для СО
-    [SerializeField] private RangedWeapon _item;
+    [SerializeField] private CollectableItem _item;
 
     private SpriteRenderer _renderer;
-    public ScriptableObject Collectable => _item;
 
-    public void SetUp()
+    private void Start()
     {
+        _renderer = gameObject.GetComponent<SpriteRenderer>();
         _renderer.sprite = _item.Sprite;
     }
 
-    public void OnPickUp()
+    public void OnPickUp(GameObject player)
+    {
+        _item.OnPickUp(player);
+        Release();
+    }
+
+    private void Release()
     {
         gameObject.SetActive(false);
     }

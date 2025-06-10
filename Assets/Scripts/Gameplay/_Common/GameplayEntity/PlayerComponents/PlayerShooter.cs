@@ -12,7 +12,6 @@ public class PlayerShooter : GameplayEntityShooter
     [SerializeField] private Transform _shootPoint;
 
     private BulletsFactory _factory;
-    [SerializeField] private List<RangedWeapon> _weapons = new();
     private List<PickedUpWeapon> _pickedUpWeapons = new();
     private int _weaponIndex;
     public event UnityAction<int, int> AmmoValueChanged;
@@ -21,10 +20,6 @@ public class PlayerShooter : GameplayEntityShooter
     {
         base.Awake();
         _pickedUpWeapons.Add(CurrentWeapon);
-        foreach (var weapon in _weapons)
-        {
-            GetWeapon(weapon);
-        }
     }
 
     private void OnEnable()
@@ -43,6 +38,8 @@ public class PlayerShooter : GameplayEntityShooter
 
     private void SwapCurrentWeapon(float value)
     {
+        if (_pickedUpWeapons.Count <= 1)
+            return;
         if (value > 0)
             _weaponIndex++;
         else
@@ -51,6 +48,8 @@ public class PlayerShooter : GameplayEntityShooter
             _weaponIndex = 0;
         else if (_weaponIndex < 0)
             _weaponIndex = _pickedUpWeapons.Count - 1;
+        StopCoroutine(nameof(ReloadingCoroutine));
+        IsReloading = false;
         CurrentWeapon = _pickedUpWeapons[_weaponIndex];
         AmmoValueChanged?.Invoke(CurrentWeapon.CurrentAmmo, CurrentWeapon.MaxMagCapacity);
     }

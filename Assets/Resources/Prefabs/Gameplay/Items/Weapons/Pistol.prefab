@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &2304273827542179357
+--- !u!1001 &457830797337430330
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,12 +10,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3259745937937321965, guid: 4e7f24d5cebe06046a1783ba4566a27c, type: 3}
       propertyPath: m_Name
-      value: Medkit
+      value: Pistol
       objectReference: {fileID: 0}
     - target: {fileID: 6443609496623232687, guid: 4e7f24d5cebe06046a1783ba4566a27c, type: 3}
       propertyPath: _item
       value: 
-      objectReference: {fileID: 11400000, guid: 97da75eb223659b44a6dd860cc4a40c3, type: 2}
+      objectReference: {fileID: 11400000, guid: 5feca0889b749444d846364f4be2a251, type: 2}
     - target: {fileID: 7644946996208438331, guid: 4e7f24d5cebe06046a1783ba4566a27c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
