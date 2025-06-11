@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -38,5 +37,10 @@ public class EnemyMover : MonoBehaviour
     public void AllowMovement(bool state)
     {
         _navMeshAgent.isStopped = state;
+    }
+
+    public void GetSpeedValue(float value)
+    {
+        _navMeshAgent.speed = value;
     }
 }

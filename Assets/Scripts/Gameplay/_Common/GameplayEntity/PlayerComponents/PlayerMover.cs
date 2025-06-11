@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class PlayerMover : MonoBehaviour
 {
-    [SerializeField] private float _moveSpeed = 5;
 
     [SerializeField] private float _dashForceValue = 10f;
     [SerializeField] private float _dashDuration = 0.1f;
@@ -13,6 +12,7 @@ public class PlayerMover : MonoBehaviour
     [SerializeField] private InputReader _reader;
     [SerializeField] private PlayerDirectionProvider _directionProvider;
 
+    private float _moveSpeed;
     private Rigidbody2D _rb2D;
     private bool _isDashing = false;
     private bool _canDash = true;
@@ -37,6 +37,11 @@ public class PlayerMover : MonoBehaviour
         if (!_isDashing)
             Move();
         Look();
+    }
+
+    public void GetSpeedValue(float value)
+    {
+        _moveSpeed = value;
     }
 
     private void Move()
@@ -68,5 +73,17 @@ public class PlayerMover : MonoBehaviour
 
         yield return new WaitForSeconds(_dashCooldown);
         _canDash = true;
+    }
+
+    public void GetMoveSpeedBuff(float duration, int value)
+    {
+        StartCoroutine(BuffMoveSpeed(duration, value));
+    }
+    
+    private IEnumerator BuffMoveSpeed(float duration, int value)
+    {
+        _moveSpeed += value;
+        yield return new WaitForSeconds(duration);
+        _moveSpeed -= value;
     }
 }

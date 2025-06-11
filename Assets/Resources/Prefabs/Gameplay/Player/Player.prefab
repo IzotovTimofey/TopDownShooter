@@ -166,8 +166,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f842b29088ada634db42a9367c69c99b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 1000
+  _stats: {fileID: 11400000, guid: 50b4607de703d414688aad2ff6310501, type: 2}
   _interactor: {fileID: 5993570037357713601}
+  _mover: {fileID: 1648384521399053598}
+  _shooter: {fileID: 1375690883937720360}
 --- !u!114 &1648384521399053598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,7 +182,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 162cd29826b300748a6f6c55615f0d4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 5
   _dashForceValue: 20
   _dashDuration: 0.2
   _dashCooldown: 1

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -8,6 +7,7 @@ public abstract class GameplayEntityShooter : MonoBehaviour
     protected bool IsShooting;
     protected bool CanShoot = true;
     protected bool IsReloading;
+    protected int DamageValueModifier;
     protected PickedUpWeapon CurrentWeapon;
 
     protected virtual void Awake()
@@ -35,4 +35,9 @@ public abstract class GameplayEntityShooter : MonoBehaviour
     }
 
     protected abstract IEnumerator ReloadingCoroutine();
+
+    public void GetDamageModifierValue(int value)
+    {
+        DamageValueModifier = value;
+    }
 }

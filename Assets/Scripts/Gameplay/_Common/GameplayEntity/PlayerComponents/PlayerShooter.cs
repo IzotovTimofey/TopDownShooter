@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -51,7 +50,7 @@ public class PlayerShooter : GameplayEntityShooter
         StopCoroutine(nameof(ReloadingCoroutine));
         IsReloading = false;
         CurrentWeapon = _pickedUpWeapons[_weaponIndex];
-        AmmoValueChanged?.Invoke(CurrentWeapon.CurrentAmmo, CurrentWeapon.MaxMagCapacity);
+        AmmoValueChanged?.Invoke(CurrentWeapon.CurrentAmmoCount, CurrentWeapon.MaxMagCapacity);
     }
 
     public void SetUp(BulletsFactory factory)
@@ -70,14 +69,14 @@ public class PlayerShooter : GameplayEntityShooter
         {
             if (CanShoot && !IsReloading)
             {
-                _factory.SpawnBullet(_directionProvider.MouseLookAngle, _shootPoint.position, _directionProvider.IdleDashDirection);
+                _factory.SpawnBullet(_directionProvider.MouseLookAngle, _shootPoint.position, _directionProvider.IdleDashDirection, DamageValueModifier);
                 CurrentWeapon.Shoot();
-                AmmoValueChanged?.Invoke(CurrentWeapon.CurrentAmmo, CurrentWeapon.MaxMagCapacity);
+                AmmoValueChanged?.Invoke(CurrentWeapon.CurrentAmmoCount, CurrentWeapon.MaxMagCapacity);
                 CanShoot = false;
                 StartCoroutine(nameof(LimitFireRateCoroutine));
             }
 
-            if (CurrentWeapon.CurrentAmmo <= 0)
+            if (CurrentWeapon.CurrentAmmoCount <= 0)
                 yield return StartCoroutine(nameof(ReloadingCoroutine));
             else
                 yield return new WaitForSeconds(CurrentWeapon.FireRate);
@@ -89,7 +88,7 @@ public class PlayerShooter : GameplayEntityShooter
         IsReloading = true;
         yield return new WaitForSeconds(CurrentWeapon.ReloadTimer);
         CurrentWeapon.Reload();
-        AmmoValueChanged?.Invoke(CurrentWeapon.CurrentAmmo, CurrentWeapon.MaxMagCapacity);
+        AmmoValueChanged?.Invoke(CurrentWeapon.CurrentAmmoCount, CurrentWeapon.MaxMagCapacity);
         IsReloading = false;
     }
 
@@ -97,5 +96,17 @@ public class PlayerShooter : GameplayEntityShooter
     {
         PickedUpWeapon newWeapon = new(weapon);
         _pickedUpWeapons.Add(newWeapon);
+    }
+
+    public void GetDamageBuff(float duration, int value)
+    {
+        StartCoroutine(BuffDamageCoroutine(duration, value));
+    }
+    
+    private IEnumerator BuffDamageCoroutine(float duration, int value)
+    {
+        DamageValueModifier += value;
+        yield return new WaitForSeconds(duration);
+        DamageValueModifier -= value;
     }
 }

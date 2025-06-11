@@ -11,6 +11,12 @@ public class Enemy : GameplayEntity
     [SerializeField] private List<Transform> _patrolRoute;
     private int _currentPatrolPoint;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        _enemyShooter.GetDamageModifierValue(ModifiableStats.Damage);
+    }
+
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -34,6 +40,7 @@ public class Enemy : GameplayEntity
 
     private void Start()
     {
+        _enemyMover.GetSpeedValue(ModifiableStats.Speed);
         GetCurrentPatrolPoint();
     }
 

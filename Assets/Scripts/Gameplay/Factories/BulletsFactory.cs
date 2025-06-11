@@ -14,9 +14,9 @@ public class BulletsFactory : MonoBehaviour
         _bulletsPool = new(null, _bullet, _startBulletsCapacity, _bulletsPoolParent);
     }
 
-    public void SpawnBullet(Quaternion angle, Vector3 startPoint, Vector3 direction)
+    public void SpawnBullet(Quaternion angle, Vector3 startPoint, Vector3 direction, int damageModifier)
     {
         Bullet bullet = _bulletsPool.GetObjectFromPool(true);
-        bullet.BulletFly(angle, startPoint, direction);
+        bullet.BulletFly(angle, startPoint, direction, damageModifier);
     }
 }

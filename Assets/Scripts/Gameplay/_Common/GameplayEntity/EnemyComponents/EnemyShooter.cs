@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -19,13 +18,13 @@ public class EnemyShooter : GameplayEntityShooter
         {
             if (CanShoot && !IsReloading)
             {
-                _bulletFactory.SpawnBullet(transform.rotation, _shootPoint.position, transform.right);
+                _bulletFactory.SpawnBullet(transform.rotation, _shootPoint.position, transform.right, DamageValueModifier);
                 CurrentWeapon.Shoot();
                 CanShoot = false;
                 StartCoroutine(nameof(LimitFireRateCoroutine));
             }
 
-            if (CurrentWeapon.CurrentAmmo <= 0)
+            if (CurrentWeapon.CurrentAmmoCount <= 0)
                 yield return StartCoroutine(nameof(ReloadingCoroutine));
             else
                 yield return new WaitForSeconds(CurrentWeapon.FireRate);

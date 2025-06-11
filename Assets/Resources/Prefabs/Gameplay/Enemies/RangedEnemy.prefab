@@ -234,7 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b176ac68ca87c2c4cb5f65097ebe829b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 100
+  _stats: {fileID: 11400000, guid: e02d0563cb4ca914d9d84b921835159a, type: 2}
   _enemyMover: {fileID: 8976536023392088016}
   _enemyShooter: {fileID: 5154138675732763774}
   _detector: {fileID: 145776023532393380}
@@ -250,7 +250,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120

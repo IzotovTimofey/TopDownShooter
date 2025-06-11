@@ -2,12 +2,12 @@
 public class PickedUpWeapon
 {
     private int _maxMagCapacity;
-    private int _currentAmmo;
+    private int _currentAmmoCount;
     private float _reloadTimer;
     private float _fireRate;
     
     public int MaxMagCapacity => _maxMagCapacity;
-    public int CurrentAmmo => _currentAmmo;
+    public int CurrentAmmoCount => _currentAmmoCount;
     public float ReloadTimer => _reloadTimer;
     public float FireRate => _fireRate;
 
@@ -16,17 +16,17 @@ public class PickedUpWeapon
         _maxMagCapacity = weapon.MaxMagCapacity;
         _reloadTimer = weapon.ReloadTimer;
         _fireRate = weapon.FireRate;
-        _currentAmmo = _maxMagCapacity;
+        _currentAmmoCount = _maxMagCapacity;
     }
 
     public void Shoot()
     {
-        if (_currentAmmo > 0)
-            _currentAmmo--;
+        if (_currentAmmoCount > 0)
+            _currentAmmoCount--;
     }
 
     public void Reload()
     {
-        _currentAmmo = _maxMagCapacity;
+        _currentAmmoCount = _maxMagCapacity;
     }
 }
