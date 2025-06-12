@@ -1,3 +1,4 @@
+using UnityEngine;
 
 public class PickedUpWeapon
 {
@@ -7,12 +8,14 @@ public class PickedUpWeapon
     private float _fireRate;
     private int _weaponDamage;
     private TimerService _timerService;
+    private Sprite _ammunitionVisual;
     
     public int MaxMagCapacity => _maxMagCapacity;
     public int CurrentAmmoCount => _currentAmmoCount;
     public float ReloadTimer => _reloadTimer;
     public float FireRate => _fireRate;
     public int WeaponDamage => _weaponDamage;
+    public Sprite AmmunitionVisual => _ammunitionVisual;
 
     public void GetTimerService(TimerService timerService)
     {
@@ -25,6 +28,7 @@ public class PickedUpWeapon
         _reloadTimer = weapon.ReloadTimer;
         _fireRate = weapon.FireRate;
         _weaponDamage = weapon.WeaponDamage;
+        _ammunitionVisual = weapon.AmmunitionVisual;
         _currentAmmoCount = _maxMagCapacity;
     }
 

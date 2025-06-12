@@ -17,3 +17,4 @@ MonoBehaviour:
   _reloadTimer: 2
   _fireRate: 0.2
   _weaponDamage: 20
+  _ammunitionVisual: {fileID: -994204768435885134, guid: 9f8f983bd47840a4dbb6b955d7525890, type: 3}

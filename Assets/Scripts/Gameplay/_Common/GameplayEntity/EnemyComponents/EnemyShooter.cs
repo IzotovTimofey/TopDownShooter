@@ -11,7 +11,7 @@ public class EnemyShooter : GameplayEntityShooter
         {
             if (CanShoot && !IsReloading)
             {
-                BulletsFactory.SpawnBullet(transform.rotation, _shootPoint.position, transform.right, CurrentWeapon.WeaponDamage);
+                BulletsFactory.SpawnBullet(transform.rotation, _shootPoint.position, transform.right, CurrentWeapon.WeaponDamage, CurrentWeapon.AmmunitionVisual);
                 CurrentWeapon.Shoot();
                 CanShoot = false;
                 StartCoroutine(nameof(LimitFireRateCoroutine));

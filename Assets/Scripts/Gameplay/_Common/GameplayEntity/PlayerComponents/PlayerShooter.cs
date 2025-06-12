@@ -76,7 +76,7 @@ public class PlayerShooter : GameplayEntityShooter
         {
             if (CanShoot && !IsReloading)
             {
-                BulletsFactory.SpawnBullet(_directionProvider.MouseLookAngle, _shootPoint.position, _directionProvider.IdleDashDirection, CurrentWeapon.WeaponDamage);
+                BulletsFactory.SpawnBullet(_directionProvider.MouseLookAngle, _shootPoint.position, _directionProvider.IdleDashDirection, CurrentWeapon.WeaponDamage, CurrentWeapon.AmmunitionVisual);
                 CurrentWeapon.Shoot();
                 AmmoValueChanged?.Invoke(CurrentWeapon.CurrentAmmoCount, CurrentWeapon.MaxMagCapacity);
                 CanShoot = false;
