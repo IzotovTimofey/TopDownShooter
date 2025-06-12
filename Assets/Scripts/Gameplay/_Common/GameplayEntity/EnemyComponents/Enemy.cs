@@ -14,7 +14,6 @@ public class Enemy : GameplayEntity
     protected override void Awake()
     {
         base.Awake();
-        _enemyShooter.GetDamageModifierValue(ModifiableStats.Damage);
     }
 
     protected override void OnEnable()

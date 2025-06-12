@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf2d740a1d1556248b0ea4a1ef315592, type: 3}
   m_Name: HealthBuff
   m_EditorClassIdentifier: 
-  _sprite: {fileID: 0}
+  _sprite: {fileID: -6470934142082179060, guid: 6332e576f5d3a1242a1a5822008d9d36, type: 3}
   BuffDuration: 10
   BuffValue: 50

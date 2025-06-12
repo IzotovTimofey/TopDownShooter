@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerFactory : MonoBehaviour
 {
+    [SerializeField] private TimerService _timerService;
     [SerializeField] private GameObject _playerPrefab;
     [SerializeField] private Transform _container;
     [SerializeField] private Transform _spawnPoint;
@@ -19,6 +20,8 @@ public class PlayerFactory : MonoBehaviour
     {
         var player = Instantiate(_playerPrefab, _container);
         var playerShooter = player.GetComponent<PlayerShooter>();
+        var playerController = player.GetComponent<Player>();
+        playerController.SetUp(_timerService);
         _camera.Follow = player.transform;
         _ammoDisplay.SetUp(playerShooter);
         playerShooter.SetUp(_bulletsFactory);

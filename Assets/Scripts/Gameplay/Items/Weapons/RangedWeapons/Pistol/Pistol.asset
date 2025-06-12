@@ -16,3 +16,4 @@ MonoBehaviour:
   _maxMagCapacity: 12
   _reloadTimer: 1.5
   _fireRate: 0.5
+  _weaponDamage: 15

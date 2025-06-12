@@ -12,7 +12,7 @@ public class PlayerMover : MonoBehaviour
     [SerializeField] private InputReader _reader;
     [SerializeField] private PlayerDirectionProvider _directionProvider;
 
-    private float _moveSpeed;
+    private ModifiableStats _stats;
     private Rigidbody2D _rb2D;
     private bool _isDashing = false;
     private bool _canDash = true;
@@ -39,14 +39,14 @@ public class PlayerMover : MonoBehaviour
         Look();
     }
 
-    public void GetSpeedValue(float value)
+    public void GetSpeedValue(ModifiableStats stats)
     {
-        _moveSpeed = value;
+        _stats = stats;
     }
 
     private void Move()
     {
-        _rb2D.linearVelocity = _directionProvider.MoveDirection * _moveSpeed;
+        _rb2D.linearVelocity = _directionProvider.MoveDirection * _stats.Speed;
     }
 
     private void Look()
@@ -73,17 +73,5 @@ public class PlayerMover : MonoBehaviour
 
         yield return new WaitForSeconds(_dashCooldown);
         _canDash = true;
-    }
-
-    public void GetMoveSpeedBuff(float duration, int value)
-    {
-        StartCoroutine(BuffMoveSpeed(duration, value));
-    }
-    
-    private IEnumerator BuffMoveSpeed(float duration, int value)
-    {
-        _moveSpeed += value;
-        yield return new WaitForSeconds(duration);
-        _moveSpeed -= value;
     }
 }

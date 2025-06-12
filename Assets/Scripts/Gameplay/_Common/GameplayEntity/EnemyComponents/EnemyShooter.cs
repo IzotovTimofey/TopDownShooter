@@ -5,20 +5,13 @@ public class EnemyShooter : GameplayEntityShooter
 {
     [SerializeField] private Transform _shootPoint;
 
-    private BulletsFactory _bulletFactory;
-
-    public void GetBulletsFactoryReference(BulletsFactory factory)
-    {
-        _bulletFactory = factory;
-    }
-
     protected override IEnumerator ShootingCoroutine()
     {
         while (IsShooting)
         {
             if (CanShoot && !IsReloading)
             {
-                _bulletFactory.SpawnBullet(transform.rotation, _shootPoint.position, transform.right, DamageValueModifier);
+                BulletsFactory.SpawnBullet(transform.rotation, _shootPoint.position, transform.right, CurrentWeapon.WeaponDamage);
                 CurrentWeapon.Shoot();
                 CanShoot = false;
                 StartCoroutine(nameof(LimitFireRateCoroutine));

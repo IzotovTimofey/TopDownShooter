@@ -7,10 +7,10 @@ public class Health
 
     public event UnityAction EntityDied;
 
-    public Health(int healthValue)
+    public Health(ModifiableStats stats)
     {
-        _maxHealth = healthValue;
-        _currentHealth = healthValue;
+        _maxHealth = stats.Health;
+        _currentHealth = _maxHealth;
     }
     public void Heal(int healValue)
     {

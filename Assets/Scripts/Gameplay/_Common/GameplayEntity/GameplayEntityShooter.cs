@@ -7,12 +7,17 @@ public abstract class GameplayEntityShooter : MonoBehaviour
     protected bool IsShooting;
     protected bool CanShoot = true;
     protected bool IsReloading;
-    protected int DamageValueModifier;
     protected PickedUpWeapon CurrentWeapon;
+    protected BulletsFactory BulletsFactory;
 
     protected virtual void Awake()
     {
         CurrentWeapon = new PickedUpWeapon(StartingWeapon);
+    }
+
+    public void SetUp(BulletsFactory factory)
+    {
+        BulletsFactory = factory;
     }
 
     public void Shoot(bool state)
@@ -35,9 +40,4 @@ public abstract class GameplayEntityShooter : MonoBehaviour
     }
 
     protected abstract IEnumerator ReloadingCoroutine();
-
-    public void GetDamageModifierValue(int value)
-    {
-        DamageValueModifier = value;
-    }
 }

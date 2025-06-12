@@ -6,7 +6,9 @@ public class DamageBuff : TemporaryBuff
     public override void OnPickUp(GameObject player)
     {
         player.TryGetComponent(out PlayerShooter playerShooter);
-        playerShooter.GetDamageBuff(BuffDuration, BuffValue);
-
+        foreach (var weapon in playerShooter.PickedUpWeapons)
+        {
+            weapon.BuffDamage(BuffValue, BuffDuration);
+        }
     }
 }

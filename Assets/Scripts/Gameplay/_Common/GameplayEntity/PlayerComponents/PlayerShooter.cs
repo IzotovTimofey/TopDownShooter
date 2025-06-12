@@ -9,10 +9,12 @@ public class PlayerShooter : GameplayEntityShooter
     [SerializeField] private PlayerDirectionProvider _directionProvider;
 
     [SerializeField] private Transform _shootPoint;
-
-    private BulletsFactory _factory;
+    
     private List<PickedUpWeapon> _pickedUpWeapons = new();
     private int _weaponIndex;
+    private TimerService _timerService;
+
+    public List<PickedUpWeapon> PickedUpWeapons => _pickedUpWeapons;
     public event UnityAction<int, int> AmmoValueChanged;
 
     protected override void Awake()
@@ -21,6 +23,16 @@ public class PlayerShooter : GameplayEntityShooter
         _pickedUpWeapons.Add(CurrentWeapon);
     }
 
+    private void Start()
+    {
+        CurrentWeapon.GetTimerService(_timerService);
+    }
+
+    public void GetTimerService(TimerService timerService)
+    {
+        _timerService = timerService;
+    }
+    
     private void OnEnable()
     {
         _reader.OnPlayerShoot += Shoot;
@@ -53,11 +65,6 @@ public class PlayerShooter : GameplayEntityShooter
         AmmoValueChanged?.Invoke(CurrentWeapon.CurrentAmmoCount, CurrentWeapon.MaxMagCapacity);
     }
 
-    public void SetUp(BulletsFactory factory)
-    {
-        _factory = factory;
-    }
-
     private void OnReload()
     {
         StartCoroutine(nameof(ReloadingCoroutine));
@@ -69,7 +76,7 @@ public class PlayerShooter : GameplayEntityShooter
         {
             if (CanShoot && !IsReloading)
             {
-                _factory.SpawnBullet(_directionProvider.MouseLookAngle, _shootPoint.position, _directionProvider.IdleDashDirection, DamageValueModifier);
+                BulletsFactory.SpawnBullet(_directionProvider.MouseLookAngle, _shootPoint.position, _directionProvider.IdleDashDirection, CurrentWeapon.WeaponDamage);
                 CurrentWeapon.Shoot();
                 AmmoValueChanged?.Invoke(CurrentWeapon.CurrentAmmoCount, CurrentWeapon.MaxMagCapacity);
                 CanShoot = false;
@@ -96,17 +103,6 @@ public class PlayerShooter : GameplayEntityShooter
     {
         PickedUpWeapon newWeapon = new(weapon);
         _pickedUpWeapons.Add(newWeapon);
-    }
-
-    public void GetDamageBuff(float duration, int value)
-    {
-        StartCoroutine(BuffDamageCoroutine(duration, value));
-    }
-    
-    private IEnumerator BuffDamageCoroutine(float duration, int value)
-    {
-        DamageValueModifier += value;
-        yield return new WaitForSeconds(duration);
-        DamageValueModifier -= value;
+        newWeapon.GetTimerService(_timerService);
     }
 }

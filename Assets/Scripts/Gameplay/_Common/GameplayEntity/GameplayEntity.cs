@@ -12,7 +12,7 @@ public abstract class GameplayEntity : MonoBehaviour
     protected virtual void Awake()
     {
         ModifiableStats = new ModifiableStats(_stats);
-        _health = new Health(ModifiableStats.Health);
+        _health = new Health(ModifiableStats);
     }
 
     protected virtual void OnEnable()
