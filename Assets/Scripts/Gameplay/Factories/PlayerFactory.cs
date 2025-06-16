@@ -7,7 +7,7 @@ public class PlayerFactory : MonoBehaviour
     [SerializeField] private GameObject _playerPrefab;
     [SerializeField] private Transform _container;
     [SerializeField] private Transform _spawnPoint;
-    [SerializeField] private BulletsFactory _bulletsFactory;
+    [SerializeField] private ProjectilesFactory projectilesFactory;
     [SerializeField] private CinemachineCamera _camera;
     [SerializeField] private AmmoDisplay _ammoDisplay;
     
@@ -24,7 +24,7 @@ public class PlayerFactory : MonoBehaviour
         playerController.SetUp(_timerService);
         _camera.Follow = player.transform;
         _ammoDisplay.SetUp(playerShooter);
-        playerShooter.SetUp(_bulletsFactory);
+        playerShooter.SetUp(projectilesFactory);
         player.transform.position = _spawnPoint.position;
     }
 }

@@ -369,7 +369,7 @@ MonoBehaviour:
   _playerPrefab: {fileID: 3397905688548858830, guid: 2877902de1545a24ba0d8d7f8267fadc, type: 3}
   _container: {fileID: 1023207344}
   _spawnPoint: {fileID: 368106513}
-  _bulletsFactory: {fileID: 1247869547}
+  projectilesFactory: {fileID: 1247869547}
   _camera: {fileID: 1885377978}
   _ammoDisplay: {fileID: 1094911383}
 --- !u!1 &519420028
@@ -23791,7 +23791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb199bb7bbc22af45a4ccac072e6d5ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletsFactory: {fileID: 1247869547}
+  projectilesFactory: {fileID: 1247869547}
   _enemyPrefab: {fileID: 6634515370679100105, guid: fee3b131eeb399842bad7fa94cdf27c5, type: 3}
   _enemyPoolParent: {fileID: 1902740544}
   _enemyPoolCapacity: 4
@@ -24049,7 +24049,7 @@ GameObject:
   - component: {fileID: 1247869546}
   - component: {fileID: 1247869547}
   m_Layer: 0
-  m_Name: BulletFactory
+  m_Name: ProjectileFactory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

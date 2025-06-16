@@ -8,16 +8,16 @@ public abstract class GameplayEntityShooter : MonoBehaviour
     protected bool CanShoot = true;
     protected bool IsReloading;
     protected PickedUpWeapon CurrentWeapon;
-    protected BulletsFactory BulletsFactory;
+    protected ProjectilesFactory ProjectilesFactory;
 
     protected virtual void Awake()
     {
         CurrentWeapon = new PickedUpWeapon(StartingWeapon);
     }
 
-    public void SetUp(BulletsFactory factory)
+    public void SetUp(ProjectilesFactory factory)
     {
-        BulletsFactory = factory;
+        ProjectilesFactory = factory;
     }
 
     public void Shoot(bool state)

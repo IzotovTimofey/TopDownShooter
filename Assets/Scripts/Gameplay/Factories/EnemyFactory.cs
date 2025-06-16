@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 public class EnemyFactory : MonoBehaviour
 {
-    [SerializeField] private BulletsFactory _bulletsFactory;
+    [SerializeField] private ProjectilesFactory projectilesFactory;
     [SerializeField] private GameObject _enemyPrefab;
     [SerializeField] private Transform _enemyPoolParent;
     [SerializeField] private int _enemyPoolCapacity;
@@ -31,7 +31,7 @@ public class EnemyFactory : MonoBehaviour
     {
         Enemy enemy = _enemyPool.GetObjectFromPool(true);
         NavMeshAgent enemyAgent = enemy.GetComponent<NavMeshAgent>();
-        enemy.GetComponent<EnemyShooter>().SetUp(_bulletsFactory);
+        enemy.GetComponent<EnemyShooter>().SetUp(projectilesFactory);
         enemy.SetUp(GetPatrolRoute());
         enemyAgent.Warp(_spawnPoints[_currentPatrolRoute].transform.position);
         _currentPatrolRoute++;
