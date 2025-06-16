@@ -23882,7 +23882,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -235, y: 47}
   m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1094911383
@@ -24082,9 +24082,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3335a891598539b4fb4960f3fcd56bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bullet: {fileID: 7441342970035022081, guid: 6ab0c5f96ab15854192024ebd8120291, type: 3}
-  _bulletsPoolParent: {fileID: 1247869546}
-  _startBulletsCapacity: 50
+  _projectiles:
+  - {fileID: 7441342970035022081, guid: 6ab0c5f96ab15854192024ebd8120291, type: 3}
+  - {fileID: 5047925251329528078, guid: a81eb2522362b6a4ba938b4d55dceb07, type: 3}
+  - {fileID: 1877409785080327926, guid: 6d9c66460edf5a94f8b123110a286254, type: 3}
+  _projectilesPoolParent: {fileID: 1247869546}
+  _startProjectilesCapacity: 50
 --- !u!1001 &1272682125
 PrefabInstance:
   m_ObjectHideFlags: 0

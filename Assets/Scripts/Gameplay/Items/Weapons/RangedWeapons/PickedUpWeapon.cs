@@ -6,6 +6,7 @@ public class PickedUpWeapon
     private float _reloadTimer;
     private float _fireRate;
     private int _weaponDamage;
+    private int _weaponIndex;
     private TimerService _timerService;
 
     public int MaxMagCapacity => _maxMagCapacity;
@@ -13,6 +14,7 @@ public class PickedUpWeapon
     public float ReloadTimer => _reloadTimer;
     public float FireRate => _fireRate;
     public int WeaponDamage => _weaponDamage;
+    public int WeaponIndex => _weaponIndex;
 
     public void GetTimerService(TimerService timerService)
     {
@@ -25,6 +27,7 @@ public class PickedUpWeapon
         _reloadTimer = weapon.ReloadTimer;
         _fireRate = weapon.FireRate;
         _weaponDamage = weapon.WeaponDamage;
+        _weaponIndex = weapon.WeaponIndex;
         _currentAmmoCount = _maxMagCapacity;
     }
 

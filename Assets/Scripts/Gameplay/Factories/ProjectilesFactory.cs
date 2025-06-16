@@ -1,21 +1,31 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectilesFactory : MonoBehaviour
 {
-    [SerializeField] private GameObject _bullet;
-    [SerializeField] private Transform _bulletsPoolParent;
-    [SerializeField] private int _startBulletsCapacity;
+    [SerializeField] private List<GameObject> _projectiles;
+    [SerializeField] private Transform _projectilesPoolParent;
+    [SerializeField] private int _startProjectilesCapacity;
 
-    private GenericPool<Projectile> _projectilesPool;
-    
+    private Dictionary<int, GenericPool<Projectile>> _projectilesPool = new();
+
     private void Awake()
     {
-        _projectilesPool = new(null, _bullet, _startBulletsCapacity, _bulletsPoolParent);
+        for (int i = 0; i < _projectiles.Count; i++)
+        {
+            // _projectilesPool.Add(new(null, _projectiles[i], _startProjectilesCapacity, _projectilesPoolParent));
+            _projectilesPool.Add(i, new GenericPool<Projectile>(null, _projectiles[i], _startProjectilesCapacity, _projectilesPoolParent));
+        }
     }
 
-    public void SpawnBullet(Quaternion angle, Vector3 startPoint, Vector3 direction, int DamageValue)
+    public void SpawnProjectile(Quaternion angle, Vector3 startPoint, Vector3 direction, int DamageValue, int index)
     {
-        Projectile projectile = _projectilesPool.GetObjectFromPool(true);
-        projectile.LaunchProjectile(angle, startPoint, direction, DamageValue);
+        GenericPool<Projectile> projectile = null;
+        if (_projectilesPool.TryGetValue(index, out projectile))
+        {
+            Projectile projectil = projectile.GetObjectFromPool(true);
+            projectil.LaunchProjectile(angle, startPoint, direction, DamageValue);
+        }
+        // Projectile projectile = _projectilesPool.GetObjectFromPool(true);
     }
 }

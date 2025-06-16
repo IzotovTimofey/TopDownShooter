@@ -17,6 +17,7 @@ public class PlayerShooter : GameplayEntityShooter
     public List<PickedUpWeapon> PickedUpWeapons => _pickedUpWeapons;
     public event UnityAction<int, int> AmmoValueChanged;
 
+    
     protected override void Awake()
     {
         base.Awake();
@@ -76,7 +77,7 @@ public class PlayerShooter : GameplayEntityShooter
         {
             if (CanShoot && !IsReloading)
             {
-                ProjectilesFactory.SpawnBullet(_directionProvider.MouseLookAngle, _shootPoint.position, _directionProvider.IdleDashDirection, CurrentWeapon.WeaponDamage);
+                ProjectilesFactory.SpawnProjectile(_directionProvider.MouseLookAngle, _shootPoint.position, _directionProvider.IdleDashDirection, CurrentWeapon.WeaponDamage, CurrentWeapon.WeaponIndex);
                 CurrentWeapon.Shoot();
                 AmmoValueChanged?.Invoke(CurrentWeapon.CurrentAmmoCount, CurrentWeapon.MaxMagCapacity);
                 CanShoot = false;
