@@ -110,9 +110,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e693900c56097184289660a7d5191502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ProjectileSpeed: 15
-  _explosionRadius: 2
-  _projectileLifeTime: 3
+  ProjectileSpeed: 30
+  _additiveRadiusOnExplosion: 1
+  _explosionDuration: 0.8
+  _projectileLifeTime: 0.3
 --- !u!1 &6587085877861562915
 GameObject:
   m_ObjectHideFlags: 0

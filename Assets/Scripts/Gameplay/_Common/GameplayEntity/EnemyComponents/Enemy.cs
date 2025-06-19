@@ -11,11 +11,6 @@ public class Enemy : GameplayEntity
     [SerializeField] private List<Transform> _patrolRoute;
     private int _currentPatrolPoint;
 
-    protected override void Awake()
-    {
-        base.Awake();
-    }
-
     protected override void OnEnable()
     {
         base.OnEnable();

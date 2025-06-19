@@ -11,7 +11,7 @@ public class PlayerDirectionProvider : MonoBehaviour
 
     private void Update()
     {
-       GetDirection(); // TODO: табуляция
+        GetDirection();
     }
 
     private void GetDirection()
@@ -21,7 +21,7 @@ public class PlayerDirectionProvider : MonoBehaviour
         DirectionToMouse = directionToMouse;
 
         float angle = Mathf.Atan2(directionToMouse.y, directionToMouse.x) * Mathf.Rad2Deg;
-        MouseLookAngle = Quaternion.Euler(new Vector3(0,0, angle));
+        MouseLookAngle = Quaternion.Euler(new Vector3(0, 0, angle));
 
         directionToMouse.z = 0;
         IdleDashDirection = directionToMouse.normalized;

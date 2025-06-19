@@ -13,19 +13,17 @@ public class ProjectilesFactory : MonoBehaviour
     {
         for (int i = 0; i < _projectiles.Count; i++)
         {
-            // _projectilesPool.Add(new(null, _projectiles[i], _startProjectilesCapacity, _projectilesPoolParent));
             _projectilesPool.Add(i, new GenericPool<Projectile>(null, _projectiles[i], _startProjectilesCapacity, _projectilesPoolParent));
         }
     }
 
     public void SpawnProjectile(Quaternion angle, Vector3 startPoint, Vector3 direction, int DamageValue, int index)
     {
-        GenericPool<Projectile> projectile = null;
-        if (_projectilesPool.TryGetValue(index, out projectile))
+        GenericPool<Projectile> projectilePool = null;
+        if (_projectilesPool.TryGetValue(index, out projectilePool))
         {
-            Projectile projectil = projectile.GetObjectFromPool(true);
-            projectil.LaunchProjectile(angle, startPoint, direction, DamageValue);
+            Projectile projectile = projectilePool.GetObjectFromPool(true);
+            projectile.LaunchProjectile(angle, startPoint, direction, DamageValue);
         }
-        // Projectile projectile = _projectilesPool.GetObjectFromPool(true);
     }
 }

@@ -15,6 +15,7 @@ public class Bullet : Projectile
         if (collision.TryGetComponent(out GameplayEntity controller))
         {
             DealDamage(controller.Health);
+            Release();
         }
         else if (collision.gameObject.tag == "Map")
         {

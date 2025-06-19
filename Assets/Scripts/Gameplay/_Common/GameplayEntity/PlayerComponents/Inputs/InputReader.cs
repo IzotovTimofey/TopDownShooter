@@ -76,8 +76,7 @@ public class InputReader : MonoBehaviour
     }
     private void OnShoot(InputAction.CallbackContext context)
     {
-        var state = context.canceled ? false : true; // TODO: упростить
-        OnPlayerShoot?.Invoke(state);
+        OnPlayerShoot?.Invoke(!context.canceled);
     }
 
     private void OnReload(InputAction.CallbackContext context)
