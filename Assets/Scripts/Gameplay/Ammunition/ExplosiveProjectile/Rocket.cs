@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Rocket : Projectile
 {
+    [SerializeField] private Animator _animator;
     [SerializeField] private float _additiveRadiusOnExplosion;
     [SerializeField] private float _explosionDuration;
     [SerializeField] private float _projectileLifeTime;
@@ -51,6 +52,7 @@ public class Rocket : Projectile
         StopMoving();
         _isExploding = true;
         _collider.radius += _additiveRadiusOnExplosion;
+        _animator.Play("Explosion");
         yield return new WaitForSeconds(_explosionDuration);
         _collider.radius -= _additiveRadiusOnExplosion;
         _isExploding = false;
