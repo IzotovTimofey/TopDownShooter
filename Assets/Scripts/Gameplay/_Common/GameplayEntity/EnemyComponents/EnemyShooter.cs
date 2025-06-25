@@ -4,31 +4,14 @@ using UnityEngine;
 public class EnemyShooter : GameplayEntityShooter
 {
     [SerializeField] private Transform _shootPoint;
-
-    protected override IEnumerator ShootingCoroutine()
+    
+    protected override void OnReload()
     {
-        while (IsShooting)
-        {
-            if (CanShoot && !IsReloading)
-            {
-                ProjectilesFactory.SpawnProjectile(transform.rotation, _shootPoint.position, transform.right, CurrentWeapon.WeaponDamage, CurrentWeapon.WeaponIndex);
-                CurrentWeapon.Shoot();
-                CanShoot = false;
-                StartCoroutine(nameof(LimitFireRateCoroutine));
-            }
-
-            if (CurrentWeapon.CurrentAmmoCount <= 0)
-                yield return StartCoroutine(nameof(ReloadingCoroutine));
-            else
-                yield return new WaitForSeconds(CurrentWeapon.FireRate);
-        }
+        Debug.Log("EnemyShooting");
     }
 
-    protected override IEnumerator ReloadingCoroutine()
+    protected override void OnShoot()
     {
-        IsReloading = true;
-        yield return new WaitForSeconds(CurrentWeapon.ReloadTimer);
-        CurrentWeapon.Reload();
-        IsReloading = false;
+        ProjectilesFactory.SpawnProjectile(transform.rotation, _shootPoint.position, transform.right, CurrentWeapon.WeaponDamage, CurrentWeapon.Projectile);
     }
 }

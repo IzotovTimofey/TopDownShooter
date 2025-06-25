@@ -12,6 +12,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Speed
       objectReference: {fileID: 0}
+    - target: {fileID: 5140502591474421296, guid: 4e7f24d5cebe06046a1783ba4566a27c, type: 3}
+      propertyPath: m_Size.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5140502591474421296, guid: 4e7f24d5cebe06046a1783ba4566a27c, type: 3}
+      propertyPath: m_Size.y
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5140502591474421296, guid: 4e7f24d5cebe06046a1783ba4566a27c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -8198674130321985405, guid: 2dec0af02995f33458d75b529464394a, type: 3}
+    - target: {fileID: 5140502591474421296, guid: 4e7f24d5cebe06046a1783ba4566a27c, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6443609496623232687, guid: 4e7f24d5cebe06046a1783ba4566a27c, type: 3}
       propertyPath: _item
       value: 

@@ -3,9 +3,12 @@ using UnityEngine;
 public abstract class Projectile : MonoBehaviour
 {
     [SerializeField] protected float ProjectileSpeed;
+    [SerializeField] private ProjectileType _projectileType;
     protected int DamageValue;
 
     protected Rigidbody2D _rb2D;
+
+    public ProjectileType ProjectileType => _projectileType;
 
     protected virtual void Awake()
     {

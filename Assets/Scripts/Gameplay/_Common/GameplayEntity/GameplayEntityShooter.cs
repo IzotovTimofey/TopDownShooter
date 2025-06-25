@@ -4,11 +4,14 @@ using UnityEngine;
 public abstract class GameplayEntityShooter : MonoBehaviour
 {
     [SerializeField] protected RangedWeapon StartingWeapon;
-    protected bool IsShooting;
-    protected bool CanShoot = true;
     protected bool IsReloading;
     protected PickedUpWeapon CurrentWeapon;
     protected ProjectilesFactory ProjectilesFactory;
+
+    private bool _isShooting;
+    private bool _canShoot = true;
+    private Coroutine _shootingCoroutine;
+    private Coroutine _reloadingCoroutine;
 
     protected virtual void Awake()
     {
@@ -22,22 +25,52 @@ public abstract class GameplayEntityShooter : MonoBehaviour
 
     public void Shoot(bool state)
     {
-        IsShooting = state;
-        if (IsShooting)
+        _isShooting = state;
+        if (_isShooting)
         {
-            StartCoroutine(nameof(ShootingCoroutine));
+            _shootingCoroutine = StartCoroutine(ShootingCoroutine());
         }
         else
-            StopCoroutine(nameof(ShootingCoroutine));
+        {
+            if (_shootingCoroutine != null)
+                StopCoroutine(_shootingCoroutine);
+        }
     }
 
-    protected abstract IEnumerator ShootingCoroutine();
-
-    protected IEnumerator LimitFireRateCoroutine()
+    private IEnumerator ShootingCoroutine()
     {
-        yield return new WaitForSeconds(CurrentWeapon.FireRate);
-        CanShoot = true;
+        while (_isShooting)
+        {
+            if (_canShoot && !IsReloading)
+            {
+                OnShoot();
+                CurrentWeapon.Shoot();
+                OnReload();
+                _canShoot = false;
+                _reloadingCoroutine = StartCoroutine(ReloadingCoroutine());
+                yield return _reloadingCoroutine;
+            }
+            else
+                yield return null;
+        }
     }
 
-    protected abstract IEnumerator ReloadingCoroutine();
+    protected IEnumerator ReloadingCoroutine()
+    {
+        if (CurrentWeapon.CurrentAmmoCount <= 0 || IsReloading)
+        {
+            yield return new WaitForSeconds(CurrentWeapon.ReloadTimer);
+            CurrentWeapon.Reload();
+            IsReloading = false;
+            OnReload();
+        }
+        else
+            yield return new WaitForSeconds(CurrentWeapon.FireRate);
+
+        _canShoot = true;
+    }
+
+    protected abstract void OnReload();
+
+    protected abstract void OnShoot();
 }

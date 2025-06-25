@@ -12,6 +12,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Damage
       objectReference: {fileID: 0}
+    - target: {fileID: 5140502591474421296, guid: 4e7f24d5cebe06046a1783ba4566a27c, type: 3}
+      propertyPath: m_Size.x
+      value: 1.1257143
+      objectReference: {fileID: 0}
+    - target: {fileID: 5140502591474421296, guid: 4e7f24d5cebe06046a1783ba4566a27c, type: 3}
+      propertyPath: m_Size.y
+      value: 1.1485714
+      objectReference: {fileID: 0}
+    - target: {fileID: 5140502591474421296, guid: 4e7f24d5cebe06046a1783ba4566a27c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2216303878177159229, guid: 086b32f787a39134bbaa3f56be744c05, type: 3}
+    - target: {fileID: 5140502591474421296, guid: 4e7f24d5cebe06046a1783ba4566a27c, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6443609496623232687, guid: 4e7f24d5cebe06046a1783ba4566a27c, type: 3}
       propertyPath: _item
       value: 

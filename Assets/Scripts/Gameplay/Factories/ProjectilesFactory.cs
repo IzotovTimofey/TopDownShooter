@@ -1,29 +1,40 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectilesFactory : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> _projectiles;
+    [Serializable]
+    private class ProjectilePool
+    {
+        public Projectile ProjectilePrefab;
+        public int PoolCapacity;
+    }
+    
     [SerializeField] private Transform _projectilesPoolParent;
-    [SerializeField] private int _startProjectilesCapacity;
+    [SerializeField] private List<ProjectilePool> _projectilePools;
 
-    private Dictionary<int, GenericPool<Projectile>> _projectilesPool = new();
+    private Dictionary<ProjectileType, GenericPool<Projectile>> _projectilesPool = new();
 
     private void Awake()
     {
-        for (int i = 0; i < _projectiles.Count; i++)
+        for (int i = 0; i < _projectilePools.Count; i++)
         {
-            _projectilesPool.Add(i, new GenericPool<Projectile>(null, _projectiles[i], _startProjectilesCapacity, _projectilesPoolParent));
+            _projectilesPool.Add(_projectilePools[i].ProjectilePrefab.ProjectileType,
+                new GenericPool<Projectile>(null,
+                _projectilePools[i].ProjectilePrefab.gameObject,
+                _projectilePools[i].PoolCapacity,
+                _projectilesPoolParent));
         }
     }
 
-    public void SpawnProjectile(Quaternion angle, Vector3 startPoint, Vector3 direction, int DamageValue, int index)
+    public void SpawnProjectile(Quaternion angle, Vector3 startPoint, Vector3 direction, int damageValue, ProjectileType projectileType)
     {
         GenericPool<Projectile> projectilePool = null;
-        if (_projectilesPool.TryGetValue(index, out projectilePool))
+        if (_projectilesPool.TryGetValue(projectileType, out projectilePool))
         {
             Projectile projectile = projectilePool.GetObjectFromPool(true);
-            projectile.LaunchProjectile(angle, startPoint, direction, DamageValue);
+            projectile.LaunchProjectile(angle, startPoint, direction, damageValue);
         }
     }
 }

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,7 +8,7 @@ public class PlayerShooter : GameplayEntityShooter
     [SerializeField] private PlayerDirectionProvider _directionProvider;
 
     [SerializeField] private Transform _shootPoint;
-    
+
     private List<PickedUpWeapon> _pickedUpWeapons = new();
     private int _weaponIndex;
     private TimerService _timerService;
@@ -17,7 +16,7 @@ public class PlayerShooter : GameplayEntityShooter
     public List<PickedUpWeapon> PickedUpWeapons => _pickedUpWeapons;
     public event UnityAction<int, int> AmmoValueChanged;
 
-    
+
     protected override void Awake()
     {
         base.Awake();
@@ -33,18 +32,18 @@ public class PlayerShooter : GameplayEntityShooter
     {
         _timerService = timerService;
     }
-    
+
     private void OnEnable()
     {
         _reader.OnPlayerShoot += Shoot;
-        _reader.OnPlayerReload += OnReload;
+        _reader.OnPlayerReload += OnReloadInput;
         _reader.OnPlayerWeaponSwap += SwapCurrentWeapon;
     }
 
     private void OnDisable()
     {
         _reader.OnPlayerShoot -= Shoot;
-        _reader.OnPlayerReload -= OnReload;
+        _reader.OnPlayerReload -= OnReloadInput;
         _reader.OnPlayerWeaponSwap -= SwapCurrentWeapon;
     }
 
@@ -66,38 +65,21 @@ public class PlayerShooter : GameplayEntityShooter
         AmmoValueChanged?.Invoke(CurrentWeapon.CurrentAmmoCount, CurrentWeapon.MaxMagCapacity);
     }
 
-    private void OnReload()
-    {
-        StartCoroutine(nameof(ReloadingCoroutine));
-    }
-
-    protected override IEnumerator ShootingCoroutine()
-    {
-        while (IsShooting)
-        {
-            if (CanShoot && !IsReloading)
-            {
-                ProjectilesFactory.SpawnProjectile(_directionProvider.MouseLookAngle, _shootPoint.position, _directionProvider.IdleDashDirection, CurrentWeapon.WeaponDamage, CurrentWeapon.WeaponIndex);
-                CurrentWeapon.Shoot();
-                AmmoValueChanged?.Invoke(CurrentWeapon.CurrentAmmoCount, CurrentWeapon.MaxMagCapacity);
-                CanShoot = false;
-                StartCoroutine(nameof(LimitFireRateCoroutine));
-            }
-
-            if (CurrentWeapon.CurrentAmmoCount <= 0)
-                yield return StartCoroutine(nameof(ReloadingCoroutine));
-            else
-                yield return new WaitForSeconds(CurrentWeapon.FireRate);
-        }
-    }
-
-    protected override IEnumerator ReloadingCoroutine()
+    private void OnReloadInput()
     {
         IsReloading = true;
-        yield return new WaitForSeconds(CurrentWeapon.ReloadTimer);
-        CurrentWeapon.Reload();
+        StartCoroutine(nameof(ReloadingCoroutine));
+    }
+    
+
+    protected override void OnReload()
+    {
         AmmoValueChanged?.Invoke(CurrentWeapon.CurrentAmmoCount, CurrentWeapon.MaxMagCapacity);
-        IsReloading = false;
+    }
+
+    protected override void OnShoot()
+    {
+        ProjectilesFactory.SpawnProjectile(_directionProvider.MouseLookAngle, _shootPoint.position, _directionProvider.IdleDashDirection, CurrentWeapon.WeaponDamage, CurrentWeapon.Projectile);
     }
 
     public void GetWeapon(RangedWeapon weapon)
