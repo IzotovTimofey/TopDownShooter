@@ -3,16 +3,17 @@ using UnityEngine;
 public abstract class GameplayEntity : MonoBehaviour
 {
     [SerializeField] private GamePlayEntityStats _stats;
-    protected ModifiableStats ModifiableStats;
+    private ModifiableStats _modifiableStats;
 
     private Health _health;
 
     public Health Health => _health;
+    public ModifiableStats ModifiableStats => _modifiableStats;
 
     protected virtual void Awake()
     {
-        ModifiableStats = new ModifiableStats(_stats);
-        _health = new Health(ModifiableStats);
+        _modifiableStats = new ModifiableStats(_stats);
+        _health = new Health(_modifiableStats);
     }
 
     protected virtual void OnEnable()

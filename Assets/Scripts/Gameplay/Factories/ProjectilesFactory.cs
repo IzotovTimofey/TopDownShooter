@@ -30,8 +30,7 @@ public class ProjectilesFactory : MonoBehaviour
 
     public void SpawnProjectile(Quaternion angle, Vector3 startPoint, Vector3 direction, int damageValue, ProjectileType projectileType)
     {
-        GenericPool<Projectile> projectilePool = null;
-        if (_projectilesPool.TryGetValue(projectileType, out projectilePool))
+        if (_projectilesPool.TryGetValue(projectileType, out GenericPool<Projectile> projectilePool))
         {
             Projectile projectile = projectilePool.GetObjectFromPool(true);
             projectile.LaunchProjectile(angle, startPoint, direction, damageValue);

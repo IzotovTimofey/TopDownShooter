@@ -39,7 +39,7 @@ public class PlayerMover : MonoBehaviour
         Look();
     }
 
-    public void GetSpeedValue(ModifiableStats stats)
+    public void SetSpeedValue(ModifiableStats stats)
     {
         _stats = stats;
     }

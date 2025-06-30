@@ -1,15 +1,12 @@
-using Unity.Cinemachine;
 using UnityEngine;
 
 public class PlayerFactory : MonoBehaviour
 {
+    [SerializeField] private PlayerInstaller _playerPrefab;
     [SerializeField] private TimerService _timerService;
-    [SerializeField] private GameObject _playerPrefab;
     [SerializeField] private Transform _container;
     [SerializeField] private Transform _spawnPoint;
-    [SerializeField] private ProjectilesFactory projectilesFactory;
-    [SerializeField] private CinemachineCamera _camera;
-    [SerializeField] private AmmoDisplay _ammoDisplay;
+    [SerializeField] private ProjectilesFactory _projectilesFactory;
     
     private void Awake()
     {
@@ -19,12 +16,7 @@ public class PlayerFactory : MonoBehaviour
     private void SpawnPlayer()
     {
         var player = Instantiate(_playerPrefab, _container);
-        var playerShooter = player.GetComponent<PlayerShooter>();
-        var playerController = player.GetComponent<Player>();
-        playerController.SetUp(_timerService);
-        _camera.Follow = player.transform;
-        _ammoDisplay.SetUp(playerShooter);
-        playerShooter.SetUp(projectilesFactory);
+        player.GetReferences(_projectilesFactory, _timerService);
         player.transform.position = _spawnPoint.position;
     }
 }

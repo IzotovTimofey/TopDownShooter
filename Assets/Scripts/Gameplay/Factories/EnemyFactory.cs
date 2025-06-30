@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class EnemyFactory : MonoBehaviour
 {
     [SerializeField] private ProjectilesFactory projectilesFactory;
-    [SerializeField] private GameObject _enemyPrefab;
+    [SerializeField] private Enemy _enemyPrefab;
     [SerializeField] private Transform _enemyPoolParent;
     [SerializeField] private int _enemyPoolCapacity;
     [SerializeField] private int _enemyCount = 2;
@@ -16,7 +16,7 @@ public class EnemyFactory : MonoBehaviour
 
     private void Awake()
     {
-        _enemyPool = new(null, _enemyPrefab, _enemyPoolCapacity, _enemyPoolParent);
+        _enemyPool = new(null, _enemyPrefab.gameObject, _enemyPoolCapacity, _enemyPoolParent);
     }
 
     private void Start()
