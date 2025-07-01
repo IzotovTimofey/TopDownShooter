@@ -5,7 +5,7 @@ public class SpeedBuff : TemporaryBuff
 {
     public override void OnPickUp(GameObject player)
     {
-        player.TryGetComponent(out Player playerController);
-        playerController.AddSpeed(BuffValue, BuffDuration);
+        if (player.TryGetComponent(out Player playerCharacter))
+            playerCharacter.ModifiableStats.BuffSpeed(BuffValue, BuffDuration);
     }
 }

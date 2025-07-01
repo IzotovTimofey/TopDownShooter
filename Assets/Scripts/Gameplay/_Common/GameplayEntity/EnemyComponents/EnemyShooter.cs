@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class EnemyShooter : GameplayEntityShooter
@@ -12,6 +11,6 @@ public class EnemyShooter : GameplayEntityShooter
 
     protected override void OnShoot()
     {
-        ProjectilesFactory.SpawnProjectile(transform.rotation, _shootPoint.position, transform.right, CurrentWeapon.WeaponDamage, CurrentWeapon.Projectile);
+        ProjectilesFactory.SpawnProjectile(transform.rotation, _shootPoint.position, transform.right, DamageValue, CurrentWeapon.Projectile);
     }
 }

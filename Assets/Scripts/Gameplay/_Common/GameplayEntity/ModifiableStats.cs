@@ -3,13 +3,12 @@ public class ModifiableStats
 {
     private int _health;
     private float _speed;
-    private float _damage;
-
+    private int _damage;
     private TimerService _timerService;
 
     public int Health => _health;
     public float Speed => _speed;
-    public float Damage => _damage;
+    public int Damage => _damage;
     
     public ModifiableStats(GamePlayEntityStats stats)
     {
@@ -33,5 +32,11 @@ public class ModifiableStats
     {
         _speed += value;
         _timerService.StartTimer(duration, () => _speed -= value);
+    }
+    
+    public void BuffDamage(int value, float duration)
+    {
+        _damage += value;
+        _timerService.StartTimer(duration, () => _damage -= value);
     }
 }

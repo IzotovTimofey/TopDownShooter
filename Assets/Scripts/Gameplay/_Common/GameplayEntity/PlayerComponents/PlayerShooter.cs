@@ -12,24 +12,13 @@ public class PlayerShooter : GameplayEntityShooter
     private List<PickedUpWeapon> _pickedUpWeapons = new();
     private int _weaponIndex;
     private TimerService _timerService;
-
-    public List<PickedUpWeapon> PickedUpWeapons => _pickedUpWeapons;
+    
     public event UnityAction<int, int> AmmoValueChanged;
     
     protected override void Awake()
     {
         base.Awake();
         _pickedUpWeapons.Add(CurrentWeapon);
-    }
-
-    private void Start()
-    {
-        CurrentWeapon.GetTimerService(_timerService);
-    }
-
-    public void ProvideTimerService(TimerService timerService)
-    {
-        _timerService = timerService;
     }
 
     private void OnEnable()
@@ -81,14 +70,14 @@ public class PlayerShooter : GameplayEntityShooter
         ProjectilesFactory.SpawnProjectile(_directionProvider.MouseLookAngle, 
             _shootPoint.position, 
             _directionProvider.IdleDashDirection, 
-            CurrentWeapon.WeaponDamage, 
+            DamageValue, 
             CurrentWeapon.Projectile);
+        Debug.Log(DamageValue);
     }
 
     public void GetWeapon(RangedWeapon weapon)
     {
         PickedUpWeapon newWeapon = new(weapon);
         _pickedUpWeapons.Add(newWeapon);
-        newWeapon.GetTimerService(_timerService);
     }
 }

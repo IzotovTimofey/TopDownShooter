@@ -31,7 +31,7 @@ public class EnemyFactory : MonoBehaviour
     {
         Enemy enemy = _enemyPool.GetObjectFromPool(true);
         NavMeshAgent enemyAgent = enemy.GetComponent<NavMeshAgent>();
-        enemy.GetComponent<EnemyShooter>().SetUp(projectilesFactory);
+        enemy.GetComponent<EnemyShooter>().SetUp(projectilesFactory, enemy.ModifiableStats);
         enemy.SetUp(GetPatrolRoute());
         enemyAgent.Warp(_spawnPoints[_currentPatrolRoute].transform.position);
         _currentPatrolRoute++;

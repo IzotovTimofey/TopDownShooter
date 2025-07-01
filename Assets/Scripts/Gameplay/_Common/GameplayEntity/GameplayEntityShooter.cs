@@ -4,23 +4,26 @@ using UnityEngine;
 public abstract class GameplayEntityShooter : MonoBehaviour
 {
     [SerializeField] protected RangedWeapon StartingWeapon;
-    protected bool IsReloading;
     protected PickedUpWeapon CurrentWeapon;
+    protected bool IsReloading;
     protected ProjectilesFactory ProjectilesFactory;
+    protected int DamageValue;
 
     private bool _isShooting;
     private bool _canShoot = true;
     private Coroutine _shootingCoroutine;
     private Coroutine _reloadingCoroutine;
 
+
     protected virtual void Awake()
     {
         CurrentWeapon = new PickedUpWeapon(StartingWeapon);
     }
 
-    public void SetUp(ProjectilesFactory factory)
+    public void SetUp(ProjectilesFactory factory, ModifiableStats stats)
     {
         ProjectilesFactory = factory;
+        DamageValue = stats.Damage;
     }
 
     public void Shoot(bool state)

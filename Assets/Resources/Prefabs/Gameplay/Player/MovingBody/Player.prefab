@@ -168,8 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stats: {fileID: 11400000, guid: 50b4607de703d414688aad2ff6310501, type: 2}
-  _mover: {fileID: 1648384521399053598}
-  _shooter: {fileID: 1375690883937720360}
+  Shooter: {fileID: 1375690883937720360}
 --- !u!114 &1648384521399053598
 MonoBehaviour:
   m_ObjectHideFlags: 0

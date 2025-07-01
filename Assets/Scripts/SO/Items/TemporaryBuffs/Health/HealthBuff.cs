@@ -5,7 +5,7 @@ public class HealthBuff : TemporaryBuff
 {
     public override void OnPickUp(GameObject player)
     {
-        player.TryGetComponent(out Player playerController);
-        playerController.AddHealth(BuffValue, BuffDuration);
+        if (player.TryGetComponent(out Player playerCharacter))
+            playerCharacter.ModifiableStats.BuffHealth(BuffValue, BuffDuration);
     }
 }

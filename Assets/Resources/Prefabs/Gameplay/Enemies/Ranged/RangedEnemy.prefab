@@ -44,6 +44,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e02d0563cb4ca914d9d84b921835159a, type: 2}
     - target: {fileID: 2527783758212953150, guid: 17bdc2a2c4085f044acac41d48b64e89, type: 3}
+      propertyPath: Shooter
+      value: 
+      objectReference: {fileID: 2866033651187263700}
+    - target: {fileID: 2527783758212953150, guid: 17bdc2a2c4085f044acac41d48b64e89, type: 3}
       propertyPath: _detector
       value: 
       objectReference: {fileID: 4630566664830574806}

@@ -18,7 +18,7 @@ public class PlayerInstaller : MonoBehaviour
     private void Start()
     {
         _player.ModifiableStats.ProvideTimerService(_timerService);
-        _shooter.SetUp(_projectilesFactory);
+        _shooter.SetUp(_projectilesFactory, _player.ModifiableStats);
         _mover.SetSpeedValue(_player.ModifiableStats);
     }
 }

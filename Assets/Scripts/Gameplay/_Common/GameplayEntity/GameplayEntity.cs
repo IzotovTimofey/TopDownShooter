@@ -3,8 +3,8 @@ using UnityEngine;
 public abstract class GameplayEntity : MonoBehaviour
 {
     [SerializeField] private GamePlayEntityStats _stats;
-    private ModifiableStats _modifiableStats;
 
+    private ModifiableStats _modifiableStats;
     private Health _health;
 
     public Health Health => _health;
